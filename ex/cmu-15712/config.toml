@@ -1,0 +1,219 @@
+# CMU 15-712, Software Systems
+year = 2024
+term = "Fall Semester"
+
+meets = ["mon", "wed", "fri"]
+starts = "12:30"
+ends = "13:50"
+
+first_day = "2024-08-26"
+last_day = "2024-12-06"
+
+[[exam.final]]
+name = "Final Exam"
+date = "TBD"
+
+[[exam.midterm]]
+name = "Midterm Exam"
+date = "TBD"
+
+[[instructor]]
+name = "David G. Andersen"
+email = "dga@cs.cmu.edu"
+webpage = "https://www.cs.cmu.edu/~dga/"
+office = "GHC 9109"
+hours = "By Appointment"
+
+[[instructor]]
+name = "Teaching Assistant"
+email = "none@test.com"
+webpage = "https://www.cs.cmu.edu/"
+office = "GHC Commons"
+hours = "8am-5pm"
+
+[[holiday]]
+dates = [ "2024-09-02" ]
+name = "Labor Day"
+
+[[holiday]]
+dates = [ "2024-10-14", "2024-10-15", "2024-10-16", "2024-10-17", "2024-10-18" ]
+name = "Fall Break"
+
+[[holiday]]
+dates = [ "2024-11-27", "2024-11-28", "2024-11-29" ]
+name = "Thanksgiving Break"
+
+[[holiday]]
+dates = [ "2024-10-04" ]
+name = "Rosh Hashanah"
+
+[[lecture]]
+title = "Introduction"
+notes = "Wisdom papers"
+
+[[lecture.papers]]
+title = "KeshavHowToRead"
+link = "HowtoReadPaper.pdf"
+
+[[lecture.papers]]
+title = "StentHowToRead"
+link = "howtoreadacspaper.pdf"
+
+[[lecture.papers]]
+title = "LevisHowToRead"
+link = "reading-levis.pdf"
+
+[[lecture.papers]]
+title = "Hamming86"
+link = "hamming86.pdf"
+
+[[lecture.papers]]
+title = "Lampson83"
+link = "lampson83.pdf"
+
+[[lecture]]
+title = "Implementing remote procedure calls"
+notes = "SigOps HoF paper"
+
+[[lecture.papers]]
+title = "Saltzer84"
+link = "saltzer84.pdf"
+
+[[lecture.papers]]
+title = "Birrell84"
+link = "birrell84.pdf"
+
+[[lecture]]
+title = "Datacenter RPCs can be General and Fast"
+
+[[lecture.papers]]
+title = "Kalia18"
+link = "https://www.usenix.org/conference/nsdi19/presentation/kalia"
+
+[[lecture]]
+title = "Using Threads in Interactive Systems: A Case Study"
+
+[[lecture.papers]]
+title = "Hauser93"
+link = "hauser93.pdf"
+
+[[lecture]]
+title = "Time, Clocks, and the Ordering of Events in a Distributed System"
+notes = "SigOps HoF paper"
+
+[[lecture.papers]]
+title = "Lamport78"
+link = "lamport78.pdf"
+
+[[lecture]]
+title = "Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs"
+notes = "SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01)"
+
+[[lecture.papers]]
+title = "Savage97"
+link = "savage97.pdf"
+
+
+[[lecture]]
+title = "IronFleet: Proving Practical Distributed Systems Correct"
+notes = "A <a href='https://blog.acolyer.org/2015/10/15/ironfleet-proving-practical-distributed-systems-correc/'>discussion in The Morning Paper</a>"
+
+[[lecture.papers]]
+title = "Hawblitzel15"
+link = "https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf"
+
+[[lecture]]
+title = "AFS"
+
+[[lecture.papers]]
+title = "Howard88"
+link = "howard88.pdf"
+
+[[lecture]]
+title = "The Design and Implementation of a Log-Structured File System"
+notes = "SigOps HoF paper"
+
+[[lecture.papers]]
+title = "Rosenblum92"
+link = "rosenblum92.pdf"
+
+[[lecture]]
+title = "A Case for Redundant Arrays of Inexpensive Disks (RAID)"
+notes = "SigOps HoF paper. Fast'07 best paper."
+
+[[lecture.papers]]
+title = "Patterson88"
+link = "patterson88.pdf"
+
+[[lecture.papers]]
+title = "Schroeder07"
+link = "http://www.pdl.cmu.edu/PDL-FTP/Failure/failure-fast07.pdf"
+
+[[lecture]]
+title = "? MapReduce and Spark"
+
+[[lecture]]
+title = "? TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems"
+
+[[lecture]]
+title = "Dynamo: Amazon’s Highly Available Key-Value Store"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "Paxos"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "OS Architecture and Extensibility: SPIN and the Exokernel"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "On Optimistic Methods for Concurrency Control"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "Concurrency Control and Recovery"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "The Byzantine Generals Problem"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "Reflections on Trusting Trust, Why Cryptosystems Fail, Crisis and Aftermath"
+
+[[lecture.papers]]
+title = ""
+link = ""
+
+[[lecture]]
+title = "Highlights from the SOSP15 History Day Talks"
+
+[[lecture.papers]]
+title = ""
+link = ""

@@ -1,0 +1,11 @@
+[package]
+name = "coursegen2"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.38"
+clap = { version = "*", features = ["derive"] }
+serde = { version = "1.0.208", features = ["derive"] }
+serde_with = { version = "3.9.0", features = ["chrono"] }
+toml = "0.8.19"
