@@ -72,6 +72,7 @@ title="Lampson83"
 link="lampson83.pdf"
 
 [[lecture]]
+section_header="Part 1: Concurrency, Threads, Parallelism, Ordering, and Races"
 title="Implementing remote procedure calls"
 notes="SigOps HoF paper"
 
@@ -109,6 +110,7 @@ title="Lamport78"
 link="lamport78.pdf"
 
 [[lecture]]
+section_header="Part 2: More bugs than a bait store"
 title="Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs"
 notes="SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01)."
 
@@ -125,6 +127,7 @@ title="Hawblitzel15"
 link="https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf"
 
 [[lecture]]
+section_header="Part 3: File Systems and Disks"
 title="AFS"
 notes="<a href='http://portal.acm.org/citation.cfm?id=74850.74870'>Leases paper</a>. SigOps HoF papers"
 
@@ -153,6 +156,7 @@ title="Schroeder07"
 link="http://www.pdl.cmu.edu/PDL-FTP/Failure/failure-fast07.pdf"
 
 [[lecture]]
+section_header="Part 4: Big Data Systems"
 title="MapReduce and Spark"
 notes="SigOps HoF paper. NSDI'12 best paper. <a href='http://research.microsoft.com/en-us/projects/dryad/eurosys07.pde'>Dryad</a>."
 
@@ -201,6 +205,7 @@ link="rosenblum92.pdf"
 title="Project Discussions With Staff"
 
 [[lecture]]
+section_header="Part 5: Kernels and Parallelism"
 title="OS Architecture and Extensibility: SPIN and the Exokernel"
 notes="SOSP'97 paper. SigOps HoF paper. <a href='http://www.cs.cmu.edu/~15712/papers/engler95.pdf'>Original Exokernel paper</a> <a href='https://www.sigops.org/s/conferences/sosp/2009/papers/baumann-sosp09.pdf'>Multikernel</a> (SOSP'09)."
 
@@ -233,6 +238,7 @@ link="clements13.pdf"
 title="No class"
 
 [[lecture]]
+section_header="Part 6: Transactions and Databases"
 title="On Optimistic Methods for Concurrency Control"
 notes="SigOps HoF paper. <a href='http://www.cs.cmu.edu/~dga/15-849/papers/speculator-sosp2005.pdf'>Spectulative Execution in a Distributed File System</a> <a href='http://www.cs.cmu.edu/~15712/papers/Lehman81.pdf'>Efficient Locking for Concurrent Operations on B-Trees</a>"
 
@@ -261,6 +267,7 @@ title="No class"
 title="No class"
 
 [[lecture]]
+section_header="Part 7: Generalized Fault Tolerance and Security"
 title="The Byzantine Generals Problem"
 notes="<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Lamport's comments on the Byzantine Generals paper.</a> <a href='http://www.cs.cmu.edu/~15712/papers/castro99.pdf'>Practical Byzantine Fault Tolerance</a> OSDI'99."
 
