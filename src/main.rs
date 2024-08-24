@@ -47,6 +47,7 @@ struct Lecture {
     title: String,
     notes: Option<String>,
     papers: Option<Vec<Paper>>,
+    section_header: Option<String>,
 }
 
 mod toml_date_format {
@@ -119,6 +120,16 @@ fn main() {
             );
             continue;
         }
+        if lecture_idx >= config.lecture.len() {
+            writeln!(&mut output, "<tr class=\"lecture\"><td>{} {}/{}<td></td><td></td><td></td></tr>",
+        dow, day.month(), day.day());
+            continue;
+        }
+        let lecture = &config.lecture[lecture_idx];
+        if let Some(section_header) = &lecture.section_header {
+            writeln!(&mut output, "<tr class=\"lechead\">><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header);
+        }
+
         writeln!(
             &mut output,
             "<tr class=\"lecture\"><td>{} {}/{}</td>",
@@ -127,11 +138,6 @@ fn main() {
             day.day()
         );
 
-        if lecture_idx >= config.lecture.len() {
-            writeln!(&mut output, "<td></td><td></td><td></td></tr>");
-            continue;
-        }
-        let lecture = &config.lecture[lecture_idx];
         writeln!(
             &mut output,
             "<td>{}</td><td>{}</td>",
