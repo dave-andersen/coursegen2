@@ -1,5 +1,5 @@
 # CMU 15-712, Software Systems
-year = 2024
+year = 2025
 term = "Fall Semester"
 
 meets = ["mon", "wed", "fri"]
@@ -25,295 +25,298 @@ office = "GHC 9109"
 hours = "By Appointment"
 
 [[instructor]]
-name = "Teaching Assistant"
-email = "none@test.com"
-webpage = "https://www.cs.cmu.edu/"
-office = "GHC Commons"
-hours = "8am-5pm"
+name = "Peter Steenkiste"
+email = "prs@cs.cmu.edu"
+webpage = "https://www.cs.cmu.edu/~prs/"
+office = "GHC 9111"
+hours = "By Appointment"
+
+[[instructor]]
+name = "Nirjhar Mukherjee"
+email = "nirjhar@cmu.edu"
+webpage = "https://www.nirjharm.com/"
+office = "GHC 6507"
+hours = "TBA"
 
 [[holiday]]
-dates = [ "2024-09-02" ]
+dates = ["2024-09-01"]
 name = "Labor Day"
 
 [[holiday]]
-dates = [ "2024-10-14", "2024-10-15", "2024-10-16", "2024-10-17", "2024-10-18" ]
+dates = ["2024-10-13", "2024-10-14", "2024-10-15", "2024-10-16", "2024-10-17"]
 name = "Fall Break"
 
 [[holiday]]
-dates = [ "2024-11-27", "2024-11-28", "2024-11-29" ]
+dates = ["2024-11-26", "2024-11-27", "2024-11-28"]
 name = "Thanksgiving Break"
 
 [[holiday]]
-dates = [ "2024-10-04" ]
+dates = ["2024-09-24"]
 name = "Rosh Hashanah"
 
 [[lecture]]
-title="Introduction"
-notes="Wisdom papers"
+title = "Introduction"
+notes = "Wisdom papers"
 
 [[lecture.papers]]
-title="KeshavHowToRead"
-link="HowtoReadPaper.pdf"
+title = "KeshavHowToRead"
+link = "HowtoReadPaper.pdf"
 
 [[lecture.papers]]
-title="StentHowToRead"
-link="howtoreadacspaper.pdf"
+title = "StentHowToRead"
+link = "howtoreadacspaper.pdf"
 
 [[lecture.papers]]
-title="LevisHowToRead"
-link="reading-levis.pdf"
+title = "LevisHowToRead"
+link = "reading-levis.pdf"
 
 [[lecture.papers]]
-title="Hamming86"
-link="hamming86.pdf"
+title = "Hamming86"
+link = "hamming86.pdf"
 
 [[lecture.papers]]
-title="Lampson83"
-link="lampson83.pdf"
+title = "Lampson83"
+link = "lampson83.pdf"
 
 [[lecture]]
-section_header="Part 1: Concurrency, Threads, Parallelism, Ordering, and Races"
-title="Implementing remote procedure calls"
-notes="SigOps HoF paper"
+section_header = "Part 1: Concurrency, Threads, Parallelism, Ordering, and Races"
+title = "Implementing remote procedure calls"
+notes = "SigOps HoF paper"
 
 [[lecture.papers]]
-title="Saltzer84"
-link="saltzer84.pdf"
+title = "Saltzer84"
+link = "saltzer84.pdf"
 
 [[lecture.papers]]
-title="Birrell84"
-link="birrell84.pdf"
+title = "Birrell84"
+link = "birrell84.pdf"
 
 [[lecture]]
-title="Datacenter RPCs can be General and Fast"
+title = "Datacenter RPCs can be General and Fast"
 
 [[lecture.papers]]
-title="Kalia18"
-link="https://www.usenix.org/conference/nsdi19/presentation/kalia"
+title = "Kalia18"
+link = "https://www.usenix.org/conference/nsdi19/presentation/kalia"
 
 [[lecture]]
-title="Labor Day: No class"
+title = "Labor Day: No class"
 
 [[lecture]]
-title="Using Threads in Interactive Systems: A Case Study"
+title = "Using Threads in Interactive Systems: A Case Study"
 
 [[lecture.papers]]
-title="Hauser93"
-link="hauser93.pdf"
+title = "Hauser93"
+link = "hauser93.pdf"
 
 [[lecture]]
-title="Time, Clocks, and the Ordering of Events in a Distributed System"
-notes="SigOps HoF paper"
+title = "Time, Clocks, and the Ordering of Events in a Distributed System"
+notes = "SigOps HoF paper"
 
 [[lecture.papers]]
-title="Lamport78"
-link="lamport78.pdf"
+title = "Lamport78"
+link = "lamport78.pdf"
 
 [[lecture]]
-section_header="Part 2: More bugs than a bait store"
-title="Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs"
-notes="SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01)."
+section_header = "Part 2: More bugs than a bait store"
+title = "Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs"
+notes = "SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01)."
 
 [[lecture.papers]]
-title="Savage97"
-link="savage97.pdf"
+title = "Savage97"
+link = "savage97.pdf"
 
 [[lecture]]
-title="IronFleet: Proving Practical Distributed Systems Correct"
-notes="A <a href='https://blog.acolyer.org/2015/10/15/ironfleet-proving-practical-distributed-systems-correc/'>discussion in The Morning Paper</a>."
+title = "IronFleet: Proving Practical Distributed Systems Correct"
+notes = "A <a href='https://blog.acolyer.org/2015/10/15/ironfleet-proving-practical-distributed-systems-correc/'>discussion in The Morning Paper</a>."
 
 [[lecture.papers]]
-title="Hawblitzel15"
-link="https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf"
+title = "Hawblitzel15"
+link = "https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf"
 
 [[lecture]]
-section_header="Part 3: File Systems and Disks"
-title="AFS"
-notes="<a href='http://portal.acm.org/citation.cfm?id=74850.74870'>Leases paper</a>. SigOps HoF papers"
+section_header = "Part 3: File Systems and Disks"
+title = "AFS"
+notes = "<a href='http://portal.acm.org/citation.cfm?id=74850.74870'>Leases paper</a>. SigOps HoF papers"
 
 [[lecture.papers]]
-title="Howard88"
-link="howard88.pdf"
+title = "Howard88"
+link = "howard88.pdf"
 
 [[lecture]]
-title="The Design and Implementation of a Log-Structured File System"
-notes="SigOps HoF paper."
+title = "The Design and Implementation of a Log-Structured File System"
+notes = "SigOps HoF paper."
 
 [[lecture.papers]]
-title="Rosenblum92"
-link="rosenblum92.pdf"
+title = "Rosenblum92"
+link = "rosenblum92.pdf"
 
 [[lecture]]
-title="A Case for Redundant Arrays of Inexpensive Disks (RAID)"
-notes="SigOps HoF paper. Fast'07 best paper."
+title = "A Case for Redundant Arrays of Inexpensive Disks (RAID)"
+notes = "SigOps HoF paper. Fast'07 best paper."
 
 [[lecture.papers]]
-title="Patterson88"
-link="patterson88.pdf"
+title = "Patterson88"
+link = "patterson88.pdf"
 
 [[lecture.papers]]
-title="Schroeder07"
-link="http://www.pdl.cmu.edu/PDL-FTP/Failure/failure-fast07.pdf"
+title = "Schroeder07"
+link = "http://www.pdl.cmu.edu/PDL-FTP/Failure/failure-fast07.pdf"
 
 [[lecture]]
-section_header="Part 4: Big Data Systems"
-title="MapReduce and Spark"
-notes="SigOps HoF paper. NSDI'12 best paper. <a href='http://research.microsoft.com/en-us/projects/dryad/eurosys07.pde'>Dryad</a>."
+section_header = "Part 4: Big Data Systems"
+title = "MapReduce and Spark"
+notes = "SigOps HoF paper. NSDI'12 best paper. <a href='http://research.microsoft.com/en-us/projects/dryad/eurosys07.pde'>Dryad</a>."
 
 [[lecture.papers]]
-title="Dean04"
-link="dean04.pdf"
+title = "Dean04"
+link = "dean04.pdf"
 
 [[lecture.papers]]
-title="Zaharia12"
-link="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf"
+title = "Zaharia12"
+link = "https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final138.pdf"
 
 [[lecture]]
-title="No Class - Yom Kippur"
-
-[[lecture]]
-title="TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems"
+title = "TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems"
 
 [[lecture.papers]]
-title="TensorFlow"
-link="http://download.tensorflow.org/paper/whitepaper2015.pdf"
+title = "TensorFlow"
+link = "http://download.tensorflow.org/paper/whitepaper2015.pdf"
 
 [[lecture]]
-title="Dynamo: Amazon's Highly Available Key-value Store"
+title = "Dynamo: Amazon's Highly Available Key-value Store"
 
 [[lecture.papers]]
-title="DeCandia07"
-link="decandia07.pdf"
+title = "DeCandia07"
+link = "decandia07.pdf"
 
 [[lecture]]
-title="Paxos"
-notes="<a href='http://en.wikipedia.org/wiki/Paxos_algorithm'>Wikipedia Paxos article</a>. <a href='http://research.microsoft.com/users/lamport/pubs/lamport-paxos.pdf'>Lamport's original Greek parable</a> <a href='http://lamport.azurewebsites.net/pubs/pubs.html#lamport-paxos'>Lamport's comments on original paper.</a>."
+title = "Paxos"
+notes = "<a href='http://en.wikipedia.org/wiki/Paxos_algorithm'>Wikipedia Paxos article</a>. <a href='http://research.microsoft.com/users/lamport/pubs/lamport-paxos.pdf'>Lamport's original Greek parable</a> <a href='http://lamport.azurewebsites.net/pubs/pubs.html#lamport-paxos'>Lamport's comments on original paper.</a>."
 
 [[lecture.papers]]
-title="Lamport01"
-link="paxos-simple.pdf"
+title = "Lamport01"
+link = "paxos-simple.pdf"
 
 [[lecture]]
-title="The Design and Implementation of a Log-Structured File System REDO"
-notes="SigOps HoF paper."
+title = "The Design and Implementation of a Log-Structured File System REDO"
+notes = "SigOps HoF paper."
 
 [[lecture.papers]]
-title="Rosenblum92"
-link="rosenblum92.pdf"
+title = "Rosenblum92"
+link = "rosenblum92.pdf"
 
 [[lecture]]
-title="Project Discussions With Staff"
+title = "Project Discussions With Staff"
 
 [[lecture]]
-section_header="Part 5: Kernels and Parallelism"
-title="OS Architecture and Extensibility: SPIN and the Exokernel"
-notes="SOSP'97 paper. SigOps HoF paper. <a href='http://www.cs.cmu.edu/~15712/papers/engler95.pdf'>Original Exokernel paper</a> <a href='https://www.sigops.org/s/conferences/sosp/2009/papers/baumann-sosp09.pdf'>Multikernel</a> (SOSP'09)."
+section_header = "Part 5: Kernels and Parallelism"
+title = "OS Architecture and Extensibility: SPIN and the Exokernel"
+notes = "SOSP'97 paper. SigOps HoF paper. <a href='http://www.cs.cmu.edu/~15712/papers/engler95.pdf'>Original Exokernel paper</a> <a href='https://www.sigops.org/s/conferences/sosp/2009/papers/baumann-sosp09.pdf'>Multikernel</a> (SOSP'09)."
 
 [[lecture.papers]]
-title="Bershad95"
-link="https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15712-s12/www/papers/bershad95.pdf"
+title = "Bershad95"
+link = "https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15712-s12/www/papers/bershad95.pdf"
 
 [[lecture.papers]]
-title="Kaashoek97"
-link="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.4447&rep=rep1&type=pdf"
+title = "Kaashoek97"
+link = "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.4447&rep=rep1&type=pdf"
 
 [[lecture]]
-title="Midterm Review"
+title = "Midterm Review"
 
 [[lecture]]
-title="Midterm 1"
+title = "Midterm 1"
 
 [[lecture]]
-title="Project Discussions with Staff"
+title = "Project Discussions with Staff"
 
 [[lecture]]
-title="The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
-notes="SOSP'13 best paper"
+title = "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
+notes = "SOSP'13 best paper"
 
 [[lecture.papers]]
-title="Clements13"
-link="clements13.pdf"
+title = "Clements13"
+link = "clements13.pdf"
 
 [[lecture]]
-title="No class"
+title = "No class"
 
 [[lecture]]
-section_header="Part 6: Transactions and Databases"
-title="On Optimistic Methods for Concurrency Control"
-notes="SigOps HoF paper. <a href='http://www.cs.cmu.edu/~dga/15-849/papers/speculator-sosp2005.pdf'>Spectulative Execution in a Distributed File System</a> <a href='http://www.cs.cmu.edu/~15712/papers/Lehman81.pdf'>Efficient Locking for Concurrent Operations on B-Trees</a>"
+section_header = "Part 6: Transactions and Databases"
+title = "On Optimistic Methods for Concurrency Control"
+notes = "SigOps HoF paper. <a href='http://www.cs.cmu.edu/~dga/15-849/papers/speculator-sosp2005.pdf'>Spectulative Execution in a Distributed File System</a> <a href='http://www.cs.cmu.edu/~15712/papers/Lehman81.pdf'>Efficient Locking for Concurrent Operations on B-Trees</a>"
 
 [[lecture.papers]]
-title="Kung81"
-link="kung81.pdf"
+title = "Kung81"
+link = "kung81.pdf"
 
 [[lecture]]
-title="Project Meetings (all day)"
+title = "Project Meetings (all day)"
 
 [[lecture]]
-title="No class"
+title = "No class"
 
 [[lecture]]
-title="Concurrency Control and Recovery"
-notes="<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Bernstein's concurrency notes - MVCC</a>, <a href='http://www.cs.cmu.edu/~15712/papers/bailis14.pdf'>Coordination Avoidance</a>"
+title = "Concurrency Control and Recovery"
+notes = "<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Bernstein's concurrency notes - MVCC</a>, <a href='http://www.cs.cmu.edu/~15712/papers/bailis14.pdf'>Coordination Avoidance</a>"
 
 [[lecture.papers]]
-title="Franklin97"
-link="franklin97concurrency.pdf"
+title = "Franklin97"
+link = "franklin97concurrency.pdf"
 
 [[lecture]]
-title="No class"
+title = "No class"
 
 [[lecture]]
-title="No class"
+title = "No class"
 
 [[lecture]]
-section_header="Part 7: Generalized Fault Tolerance and Security"
-title="The Byzantine Generals Problem"
-notes="<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Lamport's comments on the Byzantine Generals paper.</a> <a href='http://www.cs.cmu.edu/~15712/papers/castro99.pdf'>Practical Byzantine Fault Tolerance</a> OSDI'99."
+section_header = "Part 7: Generalized Fault Tolerance and Security"
+title = "The Byzantine Generals Problem"
+notes = "<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Lamport's comments on the Byzantine Generals paper.</a> <a href='http://www.cs.cmu.edu/~15712/papers/castro99.pdf'>Practical Byzantine Fault Tolerance</a> OSDI'99."
 
 [[lecture.papers]]
-title="Lamport82"
-link="lamport82.pdf"
+title = "Lamport82"
+link = "lamport82.pdf"
 
 [[lecture]]
-title="No class"
+title = "No class"
 
 [[lecture]]
-title="Reflections on Trusting Trust, Why Cryptosystems Fail, Crisis and Aftermath"
-notes="SigOps HoF paper. Write Summary only for Anderson94."
+title = "Reflections on Trusting Trust, Why Cryptosystems Fail, Crisis and Aftermath"
+notes = "SigOps HoF paper. Write Summary only for Anderson94."
 
 [[lecture.papers]]
-title="Thompson84"
-link="p761-thompson.pdf"
+title = "Thompson84"
+link = "p761-thompson.pdf"
 
 [[lecture.papers]]
-title="Anderson94"
-link="anderson94.pdf"
+title = "Anderson94"
+link = "anderson94.pdf"
 
 [[lecture.papers]]
-title="Spafford89"
-link="Spafford89.pdf"
+title = "Spafford89"
+link = "Spafford89.pdf"
 
 [[lecture]]
-title="Highlights from the SOSP15 History Day Talks"
-notes="<a href='https://www.sigops.org/s/conferences/sosp/2015/history/'>SOSP15 History Day.</a>"
+title = "Highlights from the SOSP15 History Day Talks"
+notes = "<a href='https://www.sigops.org/s/conferences/sosp/2015/history/'>SOSP15 History Day.</a>"
 
 [[lecture]]
-title="Midterm 2"
+title = "Midterm 2"
 
 [[lecture]]
-title="No class. We grade, you project."
+title = "No class. We grade, you project."
 
 [[lecture]]
-title="TBD"
+title = "TBD"
 
 [[lecture]]
-title="TBD"
+title = "TBD"
 
 [[lecture]]
-title="Project Presentations (tenative date)"
+title = "Project Presentations (tenative date)"
 
 [[lecture]]
-title="Project Presentations (tenative date)"
-notes="Final report due before midnight tonight"
-
+title = "Project Presentations (tenative date)"
+notes = "Final report due before midnight tonight"
