@@ -127,7 +127,7 @@ fn main() {
         }
         let lecture = &config.lecture[lecture_idx];
         if let Some(section_header) = &lecture.section_header {
-            writeln!(&mut output, "<tr class=\"lechead\">><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header);
+            writeln!(&mut output, "<tr class=\"lechead\"><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header);
         }
 
         writeln!(
@@ -144,8 +144,8 @@ fn main() {
             lecture.title,
             lecture.notes.as_deref().unwrap_or("")
         );
+        writeln!(&mut output, "<td>");
         if let Some(papers) = &lecture.papers {
-            writeln!(&mut output, "<td>");
             for p in papers {
                 let link = match p.link.starts_with("http") {
                     true => p.link.clone(),
@@ -153,8 +153,8 @@ fn main() {
                 };
                 write!(&mut output, "<a href=\"{}\">{}</a>, ", link, p.title);
             }
-            writeln!(&mut output, "</td>");
         }
+        writeln!(&mut output, "</td>");
         writeln!(&mut output, "</tr>");
         lecture_idx += 1;
     }
