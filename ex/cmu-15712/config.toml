@@ -224,7 +224,7 @@ link = "https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15712-s12/www/paper
 
 [[lecture.papers]]
 title = "Kaashoek97"
-link = "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.4447&rep=rep1&type=pdf"
+link = "kaashoek97sosp.pdf"
 
 [[lecture]]
 title="Fault Tolerance: Primary-Backup State Machine Replication"
