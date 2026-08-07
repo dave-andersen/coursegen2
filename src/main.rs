@@ -1,7 +1,8 @@
+use atomic_write_file::AtomicWriteFile;
 use chrono::Datelike;
 use chrono::NaiveDate;
 use clap::Parser;
-use serde::{Deserialize};
+use serde::Deserialize;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs::File;
@@ -81,10 +82,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let meets: HashSet<String> = config.meets.iter().cloned().collect();
 
     let output_html_file_name = "syllabus.html";
-    std::fs::copy("syllabus_head.html", output_html_file_name)?;
-    let mut output = File::options()
-        .append(true)
-        .open(output_html_file_name)?;
+    let mut output = AtomicWriteFile::options().open(output_html_file_name)?;
+
+    let mut head = File::open("syllabus_head.html")?;
+    let mut head_contents = Vec::new();
+    head.read_to_end(&mut head_contents)?;
+    output.write_all(&head_contents)?;
 
     let mut lecture_idx = 0;
     for day in config
@@ -151,6 +154,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut tail_contents = Vec::new();
     tail.read_to_end(&mut tail_contents)?;
     output.write_all(&tail_contents)?;
+
+    output.commit()?;
 
     Ok(())
 }
