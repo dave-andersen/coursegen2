@@ -1,13 +1,12 @@
 use chrono::Datelike;
 use chrono::NaiveDate;
 use clap::Parser;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::Read;
 use std::io::Write;
-use toml::value::Datetime;
 
 #[derive(Debug, Parser)]
 #[command(version)]
@@ -17,6 +16,7 @@ struct Args {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct Config {
     year: i32,
     term: String,
@@ -65,6 +65,7 @@ mod toml_date_format {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct Instructor {
     name: Option<String>,
     email: Option<String>,
