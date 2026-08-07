@@ -61,7 +61,7 @@ struct Instructor {
     hours: Option<String>,
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
     let mut file = File::open(args.config).expect("Failed to open config file");
     let mut contents = String::new();
@@ -106,17 +106,17 @@ fn main() {
                 "<tr class=\"noclass\"><td>{dow} {}/{}<td colspan=\"3\">No Class - {h}</td></tr>",
                 day.month(),
                 day.day()
-            );
+            )?;
             continue;
         }
         if lecture_idx >= config.lecture.len() {
             writeln!(&mut output, "<tr class=\"lecture\"><td>{} {}/{}<td></td><td></td><td></td></tr>",
-        dow, day.month(), day.day());
+        dow, day.month(), day.day())?;
             continue;
         }
         let lecture = &config.lecture[lecture_idx];
         if let Some(section_header) = &lecture.section_header {
-            writeln!(&mut output, "<tr class=\"lechead\"><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header);
+            writeln!(&mut output, "<tr class=\"lechead\"><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header)?;
         }
 
         writeln!(
@@ -126,26 +126,26 @@ fn main() {
             day.month(),
             day.day(),
 	    lecture.instructor.as_deref().unwrap_or("")
-        );
+        )?;
 
         writeln!(
             &mut output,
             "<td>{}</td><td>{}</td>",
             lecture.title,
             lecture.notes.as_deref().unwrap_or("")
-        );
-        writeln!(&mut output, "<td>");
+        )?;
+        writeln!(&mut output, "<td>")?;
         if let Some(papers) = &lecture.papers {
             for p in papers {
                 let link = match p.link.starts_with("http") {
                     true => p.link.clone(),
                     false => format!("papers/{}", p.link),
                 };
-                write!(&mut output, "<a href=\"{}\">{}</a>, ", link, p.title);
+                write!(&mut output, "<a href=\"{}\">{}</a>, ", link, p.title)?;
             }
         }
-        writeln!(&mut output, "</td>");
-        writeln!(&mut output, "</tr>");
+        writeln!(&mut output, "</td>")?;
+        writeln!(&mut output, "</tr>")?;
         lecture_idx += 1;
     }
 
@@ -153,7 +153,7 @@ fn main() {
     let mut tail_contents = Vec::new();
     tail.read_to_end(&mut tail_contents)
         .expect("Failed to read tail file");
-    output
-        .write(&tail_contents)
-        .expect("Failed to write tail file");
+    output.write_all(&tail_contents)?;
+
+    Ok(())
 }
