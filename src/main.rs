@@ -48,6 +48,7 @@ struct Lecture {
     notes: Option<String>,
     papers: Option<Vec<Paper>>,
     section_header: Option<String>,
+    instructor: Option<String>,
 }
 
 mod toml_date_format {
@@ -132,10 +133,11 @@ fn main() {
 
         writeln!(
             &mut output,
-            "<tr class=\"lecture\"><td>{} {}/{}</td>",
+            "<tr class=\"lecture\"><td>{} {}/{} {}</td>",
             dow,
             day.month(),
-            day.day()
+            day.day(),
+	    lecture.instructor.as_deref().unwrap_or("")
         );
 
         writeln!(

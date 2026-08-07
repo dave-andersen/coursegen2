@@ -8,7 +8,7 @@ ends = "13:50"
 location = "GHC 4303"
 
 first_day = "2025-08-25"
-last_day = "2025-12-06"
+last_day = "2025-12-08"
 
 [[exam.final]]
 name = "Final Exam"
@@ -270,6 +270,7 @@ title="Project Discussions with Staff"
 [[lecture]]
 title = "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
 notes = "SOSP'13 best paper"
+instructor = "prs"
 
 [[lecture.papers]]
 title = "Clements13"
@@ -282,10 +283,14 @@ title = "No class"
 section_header = "Part 6: Transactions and Databases"
 title = "On Optimistic Methods for Concurrency Control"
 notes = "SigOps HoF paper. <a href='http://www.cs.cmu.edu/~dga/15-849/papers/speculator-sosp2005.pdf'>Spectulative Execution in a Distributed File System</a> <a href='http://www.cs.cmu.edu/~15712/papers/Lehman81.pdf'>Efficient Locking for Concurrent Operations on B-Trees</a>"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Kung81"
 link = "kung81.pdf"
+
+[[lecture]]
+title = "No class"
 
 [[lecture]]
 title = "Project Meetings (all day)"
@@ -293,6 +298,7 @@ title = "Project Meetings (all day)"
 [[lecture]]
 title="Concurrency Control and Recovery"
 notes="<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Bernstein's concurrency notes - MVCC</a>, <a href='http://www.cs.cmu.edu/~15712/papers/bailis14.pdf'>Coordination Avoidance</a>"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Franklin97"
@@ -302,16 +308,18 @@ link = "franklin97concurrency.pdf"
 title = "No class"
 
 [[lecture]]
-title = "No class"
-
-[[lecture]]
 section_header = "Part 7: Generalized Fault Tolerance and Security"
 title = "The Byzantine Generals Problem"
-notes = "<a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Lamport's comments on the Byzantine Generals paper.</a> <a href='http://www.cs.cmu.edu/~15712/papers/castro99.pdf'>Practical Byzantine Fault Tolerance</a> OSDI'99."
+notes = "<a href='http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html#byz'>Lamport's comments on the Byzantine Generals paper.</a>"
+instructor = "prs"
 
 [[lecture.papers]]
 title = "Lamport82"
 link = "lamport82.pdf"
+
+[[lecture.papers]]
+title = "Castro99"
+link = "castro99.pdf"
 
 [[lecture]]
 title = "No class"
@@ -319,6 +327,7 @@ title = "No class"
 [[lecture]]
 title = "Reflections on Trusting Trust, Why Cryptosystems Fail, Crisis and Aftermath"
 notes = "SigOps HoF paper. Write Summary only for Anderson94."
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Thompson84"
@@ -333,14 +342,17 @@ title = "Spafford89"
 link = "Spafford89.pdf"
 
 [[lecture]]
+title = "No class."
+
+[[lecture]]
+title = "No Class"
+
+[[lecture]]
 title = "Highlights from the SOSP15 History Day Talks"
 notes = "<a href='https://www.sigops.org/s/conferences/sosp/2015/history/'>SOSP15 History Day.</a>"
 
 [[lecture]]
-title = "Midterm 2"
-
-[[lecture]]
-title = "No class. We grade, you project."
+title = "Effective Presentations"
 
 [[lecture.papers]]
 title="Ware24"
@@ -351,12 +363,14 @@ title="PLMW24"
 link="PLMW-talk-opinionated.pdf"
 
 [[lecture]]
-title = "TBD"
+title = "Project Presentations"
 
 [[lecture]]
-title = "Project Presentations (tenative date)"
+title = "Project Presentations"
 
 [[lecture]]
-title = "Project Presentations (tenative date)"
+title = "Project Presentations"
 notes = "Final report due before midnight tonight"
 
+[[lecture]]
+title = "Midterm 2, 12:30pm in NSH 4305, note different BUILDING and room"
