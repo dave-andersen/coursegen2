@@ -63,12 +63,11 @@ struct Instructor {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
-    let mut file = File::open(args.config).expect("Failed to open config file");
+    let mut file = File::open(&args.config)?;
     let mut contents = String::new();
-    file.read_to_string(&mut contents)
-        .expect("Failed to read config file");
+    file.read_to_string(&mut contents)?;
 
-    let config: Config = toml::from_str(&contents).expect("Failed to parse config file");
+    let config: Config = toml::from_str(&contents)?;
 
     let mut holidays: HashMap<NaiveDate, String> = HashMap::new();
     if let Some(holidaylist) = &config.holiday {
@@ -82,11 +81,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let meets: HashSet<String> = config.meets.iter().cloned().collect();
 
     let output_html_file_name = "syllabus.html";
-    std::fs::copy("syllabus_head.html", output_html_file_name).expect("Failed to copy head file");
+    std::fs::copy("syllabus_head.html", output_html_file_name)?;
     let mut output = File::options()
         .append(true)
-        .open(output_html_file_name)
-        .expect("Failed to open output file");
+        .open(output_html_file_name)?;
 
     let mut lecture_idx = 0;
     for day in config
@@ -149,10 +147,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         lecture_idx += 1;
     }
 
-    let mut tail = File::open("syllabus_tail.html").expect("Failed to open tail file");
+    let mut tail = File::open("syllabus_tail.html")?;
     let mut tail_contents = Vec::new();
-    tail.read_to_end(&mut tail_contents)
-        .expect("Failed to read tail file");
+    tail.read_to_end(&mut tail_contents)?;
     output.write_all(&tail_contents)?;
 
     Ok(())
