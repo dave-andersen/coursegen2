@@ -137,13 +137,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         )?;
         writeln!(&mut output, "<td>")?;
         if let Some(papers) = &lecture.papers {
-            for p in papers {
-                let link = match p.link.starts_with("http") {
-                    true => p.link.clone(),
-                    false => format!("papers/{}", p.link),
-                };
-                write!(&mut output, "<a href=\"{}\">{}</a>, ", link, p.title)?;
-            }
+            let paper_links: Vec<String> = papers
+                .iter()
+                .map(|p| {
+                    let link = match p.link.starts_with("http") {
+                        true => p.link.clone(),
+                        false => format!("papers/{}", p.link),
+                    };
+                    format!("<a href=\"{}\">{}</a>", link, p.title)
+                })
+                .collect();
+            write!(&mut output, "{}", paper_links.join(", "))?;
         }
         writeln!(&mut output, "</td>")?;
         writeln!(&mut output, "</tr>")?;
