@@ -51,19 +51,6 @@ struct Lecture {
     instructor: Option<String>,
 }
 
-mod toml_date_format {
-    use chrono::NaiveDate;
-    use serde::{self, Deserialize, Deserializer};
-
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let s = String::deserialize(deserializer)?;
-        Ok(NaiveDate::parse_from_str(&s, "%Y-%m-%d").map_err(serde::de::Error::custom)?)
-    }
-}
-
 #[derive(Debug, Deserialize)]
 #[allow(dead_code)]
 struct Instructor {
