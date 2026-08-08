@@ -1,5 +1,5 @@
 # CMU 15-712, Software Systems
-year = 2025
+year = 2026
 term = "Fall Semester"
 
 meets = ["mon", "wed", "fri"]
@@ -7,8 +7,8 @@ starts = "12:30"
 ends = "13:50"
 location = "GHC 4303"
 
-first_day = "2025-08-25"
-last_day = "2025-12-08"
+first_day = "2026-08-24"
+last_day = "2026-12-04"
 
 [[exam.final]]
 name = "Final Exam"
@@ -26,43 +26,31 @@ office = "GHC 9109"
 hours = "By Appointment"
 
 [[instructor]]
-name = "Peter Steenkiste"
-email = "prs@cs.cmu.edu"
-webpage = "https://www.cs.cmu.edu/~prs/"
-office = "GHC 9111"
-hours = "By Appointment"
-
-[[instructor]]
-name = "Nirjhar Mukherjee"
-email = "nirjhar@cmu.edu"
-webpage = "https://www.nirjharm.com/"
-office = "GHC 6507"
+name = "Ziyue Qiu"
+email = "ziyueqiu@andrew.cmu.edu"
+webpage = "https://ziyueqiu.github.io/"
+office = "GHC 5007"
 hours = "TBA"
 
 [[holiday]]
-dates = ["2025-09-01"]
+dates = ["2026-09-07"]
 name = "Labor Day"
 
 [[holiday]]
-dates = ["2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17"]
+dates = ["2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16"]
 name = "Fall Break"
 
 [[holiday]]
-dates = ["2025-11-26", "2025-11-27", "2025-11-28"]
+dates = ["2026-11-25", "2026-11-27", "2026-11-27"]
 name = "Thanksgiving Break"
 
 [[holiday]]
-dates = ["2025-11-24"]
+dates = ["2026-11-23"]
 name = "Early Thanksgiving Break"
 
 [[holiday]]
-dates = ["2025-09-24"]
-name = "Rosh Hashanah"
-
-[[holiday]]
-dates = [ "2025-11-08" ]
-name = "dga unavailable"
-
+dates = ["2026-09-21"]
+name = "Yom Kippur"
 
 [[lecture]]
 title = "Introduction"
@@ -370,7 +358,7 @@ title = "Project Presentations"
 
 [[lecture]]
 title = "Project Presentations"
-notes = "Final report due before midnight tonight"
+notes = "Final report due before midnight tonight (placeholder, date TBD)"
 
 [[lecture]]
-title = "Midterm 2, 12:30pm in NSH 4305, note different BUILDING and room"
+title = "Midterm 2, Date Time And Location TBA"
