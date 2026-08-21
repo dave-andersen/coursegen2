@@ -29,6 +29,14 @@ struct Config {
     last_day: NaiveDate,
     holiday: Option<Vec<Holiday>>,
     lecture: Vec<Lecture>,
+    post_class_event: Option<Vec<PostClassEvent>>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PostClassEvent {
+    date: NaiveDate,
+    title: String,
+    notes: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -111,13 +119,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             continue;
         }
         if lecture_idx >= config.lecture.len() {
-            writeln!(&mut output, "<tr class=\"lecture\"><td>{} {}/{}<td></td><td></td><td></td></tr>",
-        dow, day.month(), day.day())?;
+            writeln!(
+                &mut output,
+                "<tr class=\"lecture\"><td>{} {}/{}<td></td><td></td><td></td></tr>",
+                dow,
+                day.month(),
+                day.day()
+            )?;
             continue;
         }
         let lecture = &config.lecture[lecture_idx];
         if let Some(section_header) = &lecture.section_header {
-            writeln!(&mut output, "<tr class=\"lechead\"><td class=\"lechead\" colspan=\"4\">{}</td></tr>", section_header)?;
+            writeln!(
+                &mut output,
+                "<tr class=\"lechead\"><td class=\"lechead\" colspan=\"4\">{}</td></tr>",
+                section_header
+            )?;
         }
 
         writeln!(
@@ -126,7 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             dow,
             day.month(),
             day.day(),
-	    lecture.instructor.as_deref().unwrap_or("")
+            lecture.instructor.as_deref().unwrap_or("")
         )?;
 
         writeln!(
@@ -152,6 +169,25 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         writeln!(&mut output, "</td>")?;
         writeln!(&mut output, "</tr>")?;
         lecture_idx += 1;
+    }
+
+    if let Some(events) = &config.post_class_event {
+        for event in events {
+            let dow = event.date.weekday();
+            writeln!(
+                &mut output,
+                "<tr class=\"lecture\"><td>{} {}/{} </td>",
+                dow,
+                event.date.month(),
+                event.date.day(),
+            )?;
+            writeln!(
+                &mut output,
+                "<td>{}</td><td>{}</td><td></td></tr>",
+                event.title,
+                event.notes.as_deref().unwrap_or("")
+            )?;
+        }
     }
 
     let mut tail = File::open("syllabus_tail.html")?;

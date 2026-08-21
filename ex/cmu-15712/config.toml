@@ -8,7 +8,7 @@ ends = "13:50"
 location = "GHC 4303"
 
 first_day = "2026-08-24"
-last_day = "2026-12-04"
+last_day = "2026-12-03"
 
 [[exam.final]]
 name = "Final Exam"
@@ -91,17 +91,22 @@ link = "saltzer84.pdf"
 title = "Birrell84"
 link = "birrell84.pdf"
 
+[[lecture.papers]]
+title = "Chen2023"
+link = "https://www.usenix.org/system/files/nsdi23-chen-jingrong.pdf"
+
 [[lecture]]
-title = "Datacenter RPCs can be General and Fast"
+title = "Ensō: A Streaming Interface for NIC-Application Communication"
+notes = "OSDI '23 Best Paper"
 instructor = "dga"
 
 [[lecture.papers]]
-title = "Kalia18"
-link = "https://www.usenix.org/conference/nsdi19/presentation/kalia"
+title = "Sadok23"
+link = "https://www.usenix.org/system/files/osdi23-sadok.pdf"
 
 [[lecture]]
 title = "Using Threads in Interactive Systems: A Case Study"
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Hauser93"
@@ -110,7 +115,7 @@ link = "hauser93.pdf"
 [[lecture]]
 title = "Time, Clocks, and the Ordering of Events in a Distributed System"
 notes = "SigOps HoF paper"
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Lamport78"
@@ -120,7 +125,7 @@ link = "lamport78.pdf"
 section_header = "Part 2: More bugs than a bait store"
 title = "Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs"
 notes = "SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01)."
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Savage97"
@@ -139,7 +144,7 @@ link = "https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf"
 section_header = "Part 3: File Systems and Disks"
 title = "AFS"
 notes = "<a href='http://portal.acm.org/citation.cfm?id=74850.74870'>Leases paper</a>. SigOps HoF papers"
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Howard88"
@@ -148,7 +153,7 @@ link = "howard88.pdf"
 [[lecture]]
 title = "The Design and Implementation of a Log-Structured File System"
 notes = "SigOps HoF paper."
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Rosenblum92"
@@ -157,7 +162,7 @@ link = "rosenblum92.pdf"
 [[lecture]]
 title = "A Case for Redundant Arrays of Inexpensive Disks (RAID)"
 notes = "SigOps HoF paper. Fast'07 best paper."
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Patterson88"
@@ -258,7 +263,7 @@ title="Project Discussions with Staff"
 [[lecture]]
 title = "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
 notes = "SOSP'13 best paper"
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Clements13"
@@ -299,7 +304,7 @@ title = "No class"
 section_header = "Part 7: Generalized Fault Tolerance and Security"
 title = "The Byzantine Generals Problem"
 notes = "<a href='http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html#byz'>Lamport's comments on the Byzantine Generals paper.</a>"
-instructor = "prs"
+instructor = "dga"
 
 [[lecture.papers]]
 title = "Lamport82"
@@ -357,8 +362,8 @@ title = "Project Presentations"
 title = "Project Presentations"
 
 [[lecture]]
-title = "Project Presentations"
-notes = "Final report due before midnight tonight (placeholder, date TBD)"
-
-[[lecture]]
 title = "Midterm 2, Date Time And Location TBA"
+
+[[post_class_event]]
+date = "2026-12-04"
+title = "Final Report Due by 11:59pm"
