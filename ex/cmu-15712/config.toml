@@ -220,6 +220,19 @@ title = "Kaashoek97"
 link = "kaashoek97sosp.pdf"
 
 [[lecture]]
+title = "Fast, Flexible, and Practical Kernel Extensions"
+notes = "SOSP'24"
+instructor = "dga"
+
+[[lecture.papers]]
+title = "Dwivedi24"
+link = "https://rs3lab.github.io/assets/papers/2024/dwivedi%3Akflex.pdf"
+
+[[lecture]]
+title="Project Discussions (in class)"
+
+
+[[lecture]]
 title="Fault Tolerance: Primary-Backup State Machine Replication"
 instructor = "dga"
 
@@ -249,9 +262,6 @@ notes="You're welcome to use the classroom or do this on your own, dga will not 
 
 
 [[lecture]]
-title="Project Discussions (in class)"
-
-[[lecture]]
 title = "Midterm 1"
 
 [[lecture]]
@@ -259,15 +269,6 @@ title = "Project Discussions with Staff"
 
 [[lecture]]
 title="Project Discussions with Staff"
-
-[[lecture]]
-title = "The Scalable Commutativity Rule: Designing Scalable Software for Multicore Processors"
-notes = "SOSP'13 best paper"
-instructor = "dga"
-
-[[lecture.papers]]
-title = "Clements13"
-link = "clements13.pdf"
 
 [[lecture]]
 title = "No class"
