@@ -206,6 +206,7 @@ table.schedule tr.lecture { background: white; }
 table.schedule tr.lecture.alt { background: #ddd; }
 table.schedule tr.noclass { background: lime; }
 table.schedule tr.exam    { background: yellow; }
+table.schedule tr.deadline { background: #ffd; }
 table.schedule tr.recitation { background: #ccf; }
 table.schedule tr.recitation.alt { background: #ccf; }
 table.schedule tr.lechead { font-weight: bold; text-align: center; }

@@ -5,12 +5,12 @@ use chrono::Weekday;
 use clap::Parser;
 use serde::Deserialize;
 use serde::Serialize;
-use tera::Context;
-use tera::Tera;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fmt::Write as FmtWrite;
 use std::io::Write as IoWrite;
+use tera::Context;
+use tera::Tera;
 
 #[derive(Debug, Parser)]
 #[command(version)]
@@ -43,7 +43,6 @@ struct PostClassEvent {
     title: String,
     notes: Option<String>,
 }
-
 
 #[derive(Debug, Deserialize)]
 struct Exam {
@@ -95,7 +94,6 @@ fn weekday_from_str(s: &str) -> Result<Weekday, String> {
         )),
     }
 }
-
 
 fn instructor_html(instructors: &[Instructor]) -> Result<String, std::fmt::Error> {
     let mut html = String::from("<ul>");
@@ -209,7 +207,11 @@ fn schedule_html(
                 let link = if paper.link.starts_with("http") {
                     paper.link.as_str()
                 } else {
-                    write!(&mut schedule, "<a href=\"papers/{}\">{}</a>", paper.link, paper.title)?;
+                    write!(
+                        &mut schedule,
+                        "<a href=\"papers/{}\">{}</a>",
+                        paper.link, paper.title
+                    )?;
                     continue;
                 };
                 write!(&mut schedule, "<a href=\"{link}\">{}</a>", paper.title)?;
@@ -234,7 +236,7 @@ fn schedule_html(
             let dow = event.date.weekday();
             writeln!(
                 &mut schedule,
-                "<tr class=\"lecture\"><td>{} {}/{} </td>",
+                "<tr class=\"deadline\"><td>{} {}/{} </td>",
                 dow,
                 event.date.month(),
                 event.date.day(),
@@ -266,11 +268,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    let exams: HashMap<NaiveDate, &Exam> = config
-        .exam
-        .iter()
-        .map(|exam| (exam.date, exam))
-        .collect();
+    let exams: HashMap<NaiveDate, &Exam> =
+        config.exam.iter().map(|exam| (exam.date, exam)).collect();
 
     let meets: HashSet<Weekday> = config
         .meets
@@ -279,7 +278,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .collect::<Result<_, _>>()?;
     let schedule = schedule_html(&config, &holidays, &meets, &exams)?;
     let semester = format!("{} {}", config.term, config.year);
-    let meeting_times = format!("{} {}-{}", config.meets.join("/"), config.starts, config.ends);
+    let meeting_times = format!(
+        "{} {}-{}",
+        config.meets.join("/"),
+        config.starts,
+        config.ends
+    );
     let generated_at = chrono::Local::now().format("%Y-%m-%d").to_string();
     let syllabus_instructors = instructor_html(&config.instructor)?;
     let syllabus_template = std::fs::read_to_string("syllabus_template.html")?;
@@ -325,13 +329,45 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(test)]
 mod tests {
-    use clap::Parser;
     use chrono::NaiveDate;
     use chrono::Weekday;
+    use clap::Parser;
     use std::collections::HashMap;
     use std::collections::HashSet;
     use tera::Context;
     use tera::Tera;
+
+    fn test_config(
+        first_day: NaiveDate,
+        last_day: NaiveDate,
+        lecture: Vec<super::Lecture>,
+    ) -> super::Config {
+        super::Config {
+            year: 2026,
+            term: "Fall".to_owned(),
+            instructor: Vec::new(),
+            meets: vec!["fri".to_owned(), "mon".to_owned()],
+            starts: "12:30".to_owned(),
+            ends: "13:50".to_owned(),
+            location: "Room".to_owned(),
+            first_day,
+            last_day,
+            holiday: None,
+            exam: Vec::new(),
+            lecture,
+            post_class_event: None,
+        }
+    }
+
+    fn lecture(title: &str) -> super::Lecture {
+        super::Lecture {
+            title: title.to_owned(),
+            notes: None,
+            papers: None,
+            section_header: None,
+            instructor: None,
+        }
+    }
 
     #[test]
     fn tera_autoescapes_values_and_allows_explicit_safe_html() {
@@ -386,8 +422,7 @@ mod tests {
     #[test]
     fn configuration_defaults_to_current_directory() {
         let default_config = super::Args::try_parse_from(["coursegen2"]);
-        let explicit_config =
-            super::Args::try_parse_from(["coursegen2", "--config", "other.toml"]);
+        let explicit_config = super::Args::try_parse_from(["coursegen2", "--config", "other.toml"]);
 
         assert_eq!(
             default_config.ok().map(|args| args.config),
@@ -421,7 +456,11 @@ mod tests {
                 section_header: None,
                 instructor: None,
             }],
-            post_class_event: None,
+            post_class_event: Some(vec![super::PostClassEvent {
+                date: NaiveDate::from_ymd_opt(2026, 10, 12).unwrap(),
+                title: "Final Report Due".to_owned(),
+                notes: None,
+            }]),
         };
         let exam = super::Exam {
             name: "Midterm 1".to_owned(),
@@ -437,8 +476,76 @@ mod tests {
                 "<tr class=\"lecture\"><td>Fri 10/9 </td>\n",
                 "<td>Midterm 1</td><td></td>\n<td>\n</td>\n</tr>\n",
                 "<tr class=\"lecture\"><td>Mon 10/12 </td>\n",
-                "<td>After Exam</td><td></td>\n<td>\n</td>\n</tr>\n"
+                "<td>After Exam</td><td></td>\n<td>\n</td>\n</tr>\n",
+                "<tr class=\"deadline\"><td>Mon 10/12 </td>\n",
+                "<td>Final Report Due</td><td></td><td></td></tr>\n"
             ))
+        );
+    }
+
+    #[test]
+    fn weekday_aliases_are_case_insensitive_and_invalid_values_fail() {
+        assert_eq!(super::weekday_from_str("MONDAY"), Ok(Weekday::Mon));
+        assert_eq!(super::weekday_from_str("tues"), Ok(Weekday::Tue));
+        assert_eq!(super::weekday_from_str("ThUr"), Ok(Weekday::Thu));
+        assert!(super::weekday_from_str("thrusday").is_err());
+    }
+
+    #[test]
+    fn holidays_do_not_consume_lecture_slots() {
+        let friday = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let monday = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let config = test_config(friday, monday, vec![lecture("First Lecture")]);
+        let holidays = HashMap::from([(friday, "Break".to_owned())]);
+        let meetings = HashSet::from([Weekday::Fri, Weekday::Mon]);
+        let schedule = super::schedule_html(&config, &holidays, &meetings, &HashMap::new());
+
+        assert_eq!(
+            schedule.ok().as_deref(),
+            Some(concat!(
+                "<tr class=\"noclass\"><td>Fri 10/9</td><td colspan=\"3\">No Class - Break</td></tr>\n",
+                "<tr class=\"lecture\"><td>Mon 10/12 </td>\n",
+                "<td>First Lecture</td><td></td>\n<td>\n</td>\n</tr>\n"
+            ))
+        );
+    }
+
+    #[test]
+    fn excess_lectures_fail_instead_of_being_dropped() {
+        let friday = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let config = test_config(friday, friday, vec![lecture("First"), lecture("Dropped")]);
+        let meetings = HashSet::from([Weekday::Fri]);
+        let result = super::schedule_html(&config, &HashMap::new(), &meetings, &HashMap::new());
+
+        assert_eq!(
+            result.err().map(|error| error.to_string()),
+            Some(
+                "1 lecture(s) extend past the semester end; first unrendered lecture: \"Dropped\""
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn example_configuration_parses_generic_exams() {
+        let config: Result<super::Config, toml::de::Error> =
+            toml::from_str(include_str!("../ex/cmu-15712/config.toml"));
+
+        assert_eq!(
+            config.ok().map(|config| {
+                config
+                    .exam
+                    .into_iter()
+                    .map(|exam| (exam.name, exam.date.to_string()))
+                    .collect::<Vec<_>>()
+            }),
+            Some(vec![
+                ("Midterm 1".to_owned(), "2026-10-09".to_owned()),
+                (
+                    "Midterm 2, Date Time And Location TBA".to_owned(),
+                    "2026-12-04".to_owned()
+                ),
+            ])
         );
     }
 }

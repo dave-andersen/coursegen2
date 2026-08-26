@@ -1,0 +1,12 @@
+# Rust build artifacts
+/target/
+
+# Editor and operating-system artifacts
+.DS_Store
+*.swp
+*.swo
+*.safe
+
+# Root-level generated pages; course example outputs remain tracked.
+/syllabus.html
+/index.html
