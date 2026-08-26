@@ -8,10 +8,23 @@ Run the generator from the course directory; it reads `config.toml` and template
 ../../target/debug/coursegen2
 ```
 
-Pass `--config PATH` to use a different configuration file. If the default `config.toml`
-is absent, generation fails and names the missing path.
+Pass `--config PATH` to use a different configuration file.
 
-Both templates are XHTML using [Tera](https://keats.github.io/tera/) syntax. The generator always writes `syllabus.html`; it also writes `index.html` when `index_template.html` exists.
+
+## Project files and outputs
+
+Run from a course directory containing:
+
+- `config.toml`
+- `syllabus_template.html` (required)
+- `index_template.html` (optional)
+
+Generation writes `syllabus.html` and, when the index template exists, `index.html` in
+that same directory. Treat both as generated files: edit their templates or
+`config.toml`, then regenerate.
+
+## Templates
+Both templates are XHTML using [Tera](https://keats.github.io/tera/) syntax.
 
 Shared fields:
 
@@ -23,7 +36,19 @@ Shared fields:
 - `{{ schedule | safe }}` — generated schedule rows, available to the syllabus template
 - `{{ generated_at }}` — local generation date
 
-Unknown or unclosed placeholders cause generation to fail. `location` is required in every config.
+
+## Configuration
+
+`config.toml` requires `year`, `term`, `meets`, `starts`, `ends`, `location`,
+`first_day`, `last_day`, `[[instructor]]`, and `[[lecture]]` entries. Dates use
+`YYYY-MM-DD`; `meets` accepts weekday names such as `mon` or `monday`.
+
+Each instructor may provide `name`, `email`, `webpage`, `office`, and `hours`.
+Each lecture requires `title` and may provide `notes`, `instructor`,
+`section_header`, and `[[lecture.papers]]` entries with `title` and `link`.
+
+Optional `[[holiday]]` entries provide a `name` and `dates`; optional
+`[[post_class_event]]` entries provide a `date`, `title`, and optional `notes`.
 
 ## Scheduled exams
 
