@@ -8,7 +8,7 @@ ends = "13:50"
 location = "GHC 4303"
 
 first_day = "2026-08-24"
-last_day = "2026-12-03"
+last_day = "2026-12-04"
 
 [[exam.final]]
 name = "Final Exam"

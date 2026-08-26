@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-chrono = "0.4.38"
+# Required for TOML deserialization of Config's chrono::NaiveDate fields.
+chrono = { version = "0.4.38", features = ["serde"] }
 clap = { version = "*", features = ["derive"] }
 serde = { version = "1.0.229", features = ["derive"] }
-serde_with = { version = "3.21.0", features = ["chrono"] }
 toml = "1.1.4"
 atomic-write-file = "0.3"

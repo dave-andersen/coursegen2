@@ -1,6 +1,7 @@
 use atomic_write_file::AtomicWriteFile;
 use chrono::Datelike;
 use chrono::NaiveDate;
+use chrono::Weekday;
 use clap::Parser;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -22,7 +23,7 @@ struct Config {
     year: i32,
     term: String,
     instructor: Vec<Instructor>,
-    meets: Vec<String>, // eventually need to parse this to DOW
+    meets: Vec<String>,
     starts: String,
     ends: String,
     first_day: NaiveDate,
@@ -70,6 +71,21 @@ struct Instructor {
     hours: Option<String>,
 }
 
+fn weekday_from_str(s: &str) -> Result<Weekday, String> {
+    match s.to_lowercase().as_str() {
+        "mon" | "monday" => Ok(Weekday::Mon),
+        "tue" | "tues" | "tuesday" => Ok(Weekday::Tue),
+        "wed" | "weds" | "wednesday" => Ok(Weekday::Wed),
+        "thu" | "thur" | "thurs" | "thursday" => Ok(Weekday::Thu),
+        "fri" | "friday" => Ok(Weekday::Fri),
+        "sat" | "saturday" => Ok(Weekday::Sat),
+        "sun" | "sunday" => Ok(Weekday::Sun),
+        _ => Err(format!(
+            "config `meets`: unrecognized weekday {s:?} (expected e.g. \"mon\" or \"monday\")"
+        )),
+    }
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
     let mut file = File::open(&args.config)?;
@@ -87,7 +103,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    let meets: HashSet<String> = config.meets.iter().cloned().collect();
+    let meets: HashSet<Weekday> = config
+        .meets
+        .iter()
+        .map(|m| weekday_from_str(m))
+        .collect::<Result<_, _>>()?;
 
     let output_html_file_name = "syllabus.html";
     let mut output = AtomicWriteFile::options().open(output_html_file_name)?;
@@ -103,11 +123,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .iter_days()
         .take_while(|d| *d <= config.last_day)
     {
-        let dow = day.weekday().to_string();
-
-        if !meets.contains(&dow.to_lowercase()) {
+        if !meets.contains(&day.weekday()) {
             continue;
         }
+        let dow = day.weekday().to_string();
+
         // How do we want to handle lecture headings?
         if let Some(h) = holidays.get(&day) {
             writeln!(
@@ -170,6 +190,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         writeln!(&mut output, "</tr>")?;
         lecture_idx += 1;
     }
+    if lecture_idx < config.lecture.len() {
+        let dropped_lectures = config.lecture.len() - lecture_idx;
+        return Err(format!(
+            "{dropped_lectures} lecture(s) extend past the semester end; first unrendered lecture: {:?}",
+            config.lecture[lecture_idx].title
+        )
+        .into());
+    }
+
 
     if let Some(events) = &config.post_class_event {
         for event in events {
