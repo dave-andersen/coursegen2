@@ -49,6 +49,7 @@ Each lecture requires `title` and may provide `notes`, `instructor`,
 
 Optional `[[holiday]]` entries provide a `name` and `dates`; optional
 `[[post_class_event]]` entries provide a `date`, `title`, and optional `notes`.
+Holiday dates must be unique across every holiday entry; duplicates fail generation and name both conflicting holidays.
 
 ## Scheduled exams
 

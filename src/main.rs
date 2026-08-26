@@ -30,11 +30,13 @@ struct Config {
     location: String,
     first_day: NaiveDate,
     last_day: NaiveDate,
-    holiday: Option<Vec<Holiday>>,
+    #[serde(default)]
+    holiday: Vec<Holiday>,
     #[serde(default)]
     exam: Vec<Exam>,
     lecture: Vec<Lecture>,
-    post_class_event: Option<Vec<PostClassEvent>>,
+    #[serde(default)]
+    post_class_event: Vec<PostClassEvent>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -120,6 +122,23 @@ fn instructor_html(instructors: &[Instructor]) -> Result<String, std::fmt::Error
 
     html.push_str("</ul>");
     Ok(html)
+}
+
+fn holiday_map(holidays: &[Holiday]) -> Result<HashMap<NaiveDate, String>, String> {
+    let mut holidays_by_date = HashMap::new();
+
+    for holiday in holidays {
+        for date in &holiday.dates {
+            if let Some(previous_name) = holidays_by_date.insert(*date, holiday.name.clone()) {
+                return Err(format!(
+                    "duplicate holiday date {date}: {previous_name:?} and {:?}",
+                    holiday.name
+                ));
+            }
+        }
+    }
+
+    Ok(holidays_by_date)
 }
 
 fn schedule_html(
@@ -231,23 +250,21 @@ fn schedule_html(
         .into());
     }
 
-    if let Some(events) = &config.post_class_event {
-        for event in events {
-            let dow = event.date.weekday();
-            writeln!(
-                &mut schedule,
-                "<tr class=\"deadline\"><td>{} {}/{} </td>",
-                dow,
-                event.date.month(),
-                event.date.day(),
-            )?;
-            writeln!(
-                &mut schedule,
-                "<td>{}</td><td>{}</td><td></td></tr>",
-                event.title,
-                event.notes.as_deref().unwrap_or("")
-            )?;
-        }
+    for event in &config.post_class_event {
+        let dow = event.date.weekday();
+        writeln!(
+            &mut schedule,
+            "<tr class=\"deadline\"><td>{} {}/{} </td>",
+            dow,
+            event.date.month(),
+            event.date.day(),
+        )?;
+        writeln!(
+            &mut schedule,
+            "<td>{}</td><td>{}</td><td></td></tr>",
+            event.title,
+            event.notes.as_deref().unwrap_or("")
+        )?;
     }
 
     Ok(schedule)
@@ -259,14 +276,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map_err(|error| format!("reading config {}: {error}", args.config))?;
     let config: Config = toml::from_str(&contents)?;
 
-    let mut holidays: HashMap<NaiveDate, String> = HashMap::new();
-    if let Some(holidaylist) = &config.holiday {
-        for holiday in holidaylist {
-            for date in &holiday.dates {
-                holidays.insert(*date, holiday.name.clone());
-            }
-        }
-    }
+    let holidays = holiday_map(&config.holiday)?;
 
     let exams: HashMap<NaiveDate, &Exam> =
         config.exam.iter().map(|exam| (exam.date, exam)).collect();
@@ -352,10 +362,10 @@ mod tests {
             location: "Room".to_owned(),
             first_day,
             last_day,
-            holiday: None,
+            holiday: Vec::new(),
             exam: Vec::new(),
             lecture,
-            post_class_event: None,
+            post_class_event: Vec::new(),
         }
     }
 
@@ -447,7 +457,7 @@ mod tests {
             location: "Room".to_owned(),
             first_day: exam_date,
             last_day: NaiveDate::from_ymd_opt(2026, 10, 12).unwrap(),
-            holiday: None,
+            holiday: Vec::new(),
             exam: Vec::new(),
             lecture: vec![super::Lecture {
                 title: "After Exam".to_owned(),
@@ -456,11 +466,11 @@ mod tests {
                 section_header: None,
                 instructor: None,
             }],
-            post_class_event: Some(vec![super::PostClassEvent {
+            post_class_event: vec![super::PostClassEvent {
                 date: NaiveDate::from_ymd_opt(2026, 10, 12).unwrap(),
                 title: "Final Report Due".to_owned(),
                 notes: None,
-            }]),
+            }],
         };
         let exam = super::Exam {
             name: "Midterm 1".to_owned(),
@@ -546,6 +556,56 @@ mod tests {
                     "2026-12-04".to_owned()
                 ),
             ])
+        );
+    }
+
+    #[test]
+    fn omitted_schedule_collections_deserialize_empty() {
+        let config: Result<super::Config, toml::de::Error> = toml::from_str(
+            r#"
+                year = 2026
+                term = "Fall"
+                instructor = []
+                meets = ["mon"]
+                starts = "12:30"
+                ends = "13:50"
+                location = "Room"
+                first_day = "2026-08-24"
+                last_day = "2026-12-04"
+                lecture = []
+            "#,
+        );
+
+        assert_eq!(
+            config.ok().map(|config| (
+                config.holiday.len(),
+                config.exam.len(),
+                config.post_class_event.len()
+            )),
+            Some((0, 0, 0))
+        );
+    }
+
+    #[test]
+    fn duplicate_holiday_dates_fail_with_both_names() {
+        let date = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let holidays = [
+            super::Holiday {
+                dates: vec![date],
+                name: "Fall Break".to_owned(),
+            },
+            super::Holiday {
+                dates: vec![date],
+                name: "University Holiday".to_owned(),
+            },
+        ];
+
+        assert_eq!(
+            super::holiday_map(&holidays),
+            Err(
+                "duplicate holiday date 2026-10-12: \"Fall Break\" and \"University Holiday\""
+                    .to_owned()
+            )
         );
     }
 }
