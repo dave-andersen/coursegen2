@@ -2,11 +2,14 @@
 
 Generates course pages from `config.toml` and project-local Tera templates: required `syllabus_template.html` and optional `index_template.html`.
 
-Run the generator from the course directory:
+Run the generator from the course directory; it reads `config.toml` and templates there:
 
 ```sh
-../../target/debug/coursegen2 --config config.toml
+../../target/debug/coursegen2
 ```
+
+Pass `--config PATH` to use a different configuration file. If the default `config.toml`
+is absent, generation fails and names the missing path.
 
 Both templates are XHTML using [Tera](https://keats.github.io/tera/) syntax. The generator always writes `syllabus.html`; it also writes `index.html` when `index_template.html` exists.
 

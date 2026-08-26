@@ -3,7 +3,7 @@
 - Report LoC changes.
 - The canonical exercised fixture is `ex/cmu-15712/`. Rebuild it after changes to
   `src/`, `config.toml`, or templates:
-  `cargo build && (cd ex/cmu-15712 && ../../target/debug/coursegen2 --config config.toml)`.
+  `cargo build && (cd ex/cmu-15712 && ../../target/debug/coursegen2)`.
 - `syllabus_template.html` is required; `index_template.html` is optional and, when
   present, produces `index.html`. Do not edit generated `syllabus.html` or `index.html`
   directly; change the corresponding template or `config.toml`, then rebuild.

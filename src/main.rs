@@ -15,7 +15,7 @@ use std::io::Write as IoWrite;
 #[derive(Debug, Parser)]
 #[command(version)]
 struct Args {
-    #[arg(short, long)]
+    #[arg(short, long, default_value = "config.toml")]
     config: String,
 }
 
@@ -228,7 +228,8 @@ fn schedule_html(
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
-    let contents = std::fs::read_to_string(&args.config)?;
+    let contents = std::fs::read_to_string(&args.config)
+        .map_err(|error| format!("reading config {}: {error}", args.config))?;
     let config: Config = toml::from_str(&contents)?;
 
     let mut holidays: HashMap<NaiveDate, String> = HashMap::new();
@@ -293,6 +294,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(test)]
 mod tests {
+    use clap::Parser;
     use tera::Context;
     use tera::Tera;
 
@@ -344,5 +346,21 @@ mod tests {
             .add_raw_template("syllabus_template.html", "{{")
             .is_err());
         assert!(Tera::one_off("{{ missing }}", &Context::new(), true).is_err());
+    }
+
+    #[test]
+    fn configuration_defaults_to_current_directory() {
+        let default_config = super::Args::try_parse_from(["coursegen2"]);
+        let explicit_config =
+            super::Args::try_parse_from(["coursegen2", "--config", "other.toml"]);
+
+        assert_eq!(
+            default_config.ok().map(|args| args.config),
+            Some("config.toml".to_owned())
+        );
+        assert_eq!(
+            explicit_config.ok().map(|args| args.config),
+            Some("other.toml".to_owned())
+        );
     }
 }
