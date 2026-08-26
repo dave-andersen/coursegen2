@@ -31,6 +31,8 @@ struct Config {
     first_day: NaiveDate,
     last_day: NaiveDate,
     holiday: Option<Vec<Holiday>>,
+    #[serde(default)]
+    exam: Vec<Exam>,
     lecture: Vec<Lecture>,
     post_class_event: Option<Vec<PostClassEvent>>,
 }
@@ -40,6 +42,13 @@ struct PostClassEvent {
     date: NaiveDate,
     title: String,
     notes: Option<String>,
+}
+
+
+#[derive(Debug, Deserialize)]
+struct Exam {
+    name: String,
+    date: NaiveDate,
 }
 
 #[derive(Debug, Deserialize)]
@@ -119,6 +128,7 @@ fn schedule_html(
     config: &Config,
     holidays: &HashMap<NaiveDate, String>,
     meets: &HashSet<Weekday>,
+    exams: &HashMap<NaiveDate, &Exam>,
 ) -> Result<String, Box<dyn std::error::Error>> {
     let mut schedule = String::new();
     let mut lecture_idx = 0;
@@ -142,6 +152,21 @@ fn schedule_html(
             )?;
             continue;
         }
+        if let Some(exam) = exams.get(&day) {
+            writeln!(
+                &mut schedule,
+                "<tr class=\"lecture\"><td>{} {}/{} </td>",
+                dow,
+                day.month(),
+                day.day(),
+            )?;
+            writeln!(&mut schedule, "<td>{}</td><td></td>", exam.name)?;
+            writeln!(&mut schedule, "<td>")?;
+            writeln!(&mut schedule, "</td>")?;
+            writeln!(&mut schedule, "</tr>")?;
+            continue;
+        }
+
         if lecture_idx >= config.lecture.len() {
             writeln!(
                 &mut schedule,
@@ -241,12 +266,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
+    let exams: HashMap<NaiveDate, &Exam> = config
+        .exam
+        .iter()
+        .map(|exam| (exam.date, exam))
+        .collect();
+
     let meets: HashSet<Weekday> = config
         .meets
         .iter()
         .map(|meeting| weekday_from_str(meeting))
         .collect::<Result<_, _>>()?;
-    let schedule = schedule_html(&config, &holidays, &meets)?;
+    let schedule = schedule_html(&config, &holidays, &meets, &exams)?;
     let semester = format!("{} {}", config.term, config.year);
     let meeting_times = format!("{} {}-{}", config.meets.join("/"), config.starts, config.ends);
     let generated_at = chrono::Local::now().format("%Y-%m-%d").to_string();
@@ -295,6 +326,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 #[cfg(test)]
 mod tests {
     use clap::Parser;
+    use chrono::NaiveDate;
+    use chrono::Weekday;
+    use std::collections::HashMap;
+    use std::collections::HashSet;
     use tera::Context;
     use tera::Tera;
 
@@ -361,6 +396,49 @@ mod tests {
         assert_eq!(
             explicit_config.ok().map(|args| args.config),
             Some("other.toml".to_owned())
+        );
+    }
+
+    #[test]
+    fn configured_exam_occupies_its_meeting_slot() {
+        let exam_date = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let config = super::Config {
+            year: 2026,
+            term: "Fall".to_owned(),
+            instructor: Vec::new(),
+            meets: vec!["fri".to_owned(), "mon".to_owned()],
+            starts: "12:30".to_owned(),
+            ends: "13:50".to_owned(),
+            location: "Room".to_owned(),
+            first_day: exam_date,
+            last_day: NaiveDate::from_ymd_opt(2026, 10, 12).unwrap(),
+            holiday: None,
+            exam: Vec::new(),
+            lecture: vec![super::Lecture {
+                title: "After Exam".to_owned(),
+                notes: None,
+                papers: None,
+                section_header: None,
+                instructor: None,
+            }],
+            post_class_event: None,
+        };
+        let exam = super::Exam {
+            name: "Midterm 1".to_owned(),
+            date: exam_date,
+        };
+        let exams = HashMap::from([(exam_date, &exam)]);
+        let meetings = HashSet::from([Weekday::Fri, Weekday::Mon]);
+        let schedule = super::schedule_html(&config, &HashMap::new(), &meetings, &exams);
+
+        assert_eq!(
+            schedule.ok().as_deref(),
+            Some(concat!(
+                "<tr class=\"lecture\"><td>Fri 10/9 </td>\n",
+                "<td>Midterm 1</td><td></td>\n<td>\n</td>\n</tr>\n",
+                "<tr class=\"lecture\"><td>Mon 10/12 </td>\n",
+                "<td>After Exam</td><td></td>\n<td>\n</td>\n</tr>\n"
+            ))
         );
     }
 }

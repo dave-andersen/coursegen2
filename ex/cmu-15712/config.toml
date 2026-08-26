@@ -10,13 +10,13 @@ location = "GHC 4303"
 first_day = "2026-08-24"
 last_day = "2026-12-04"
 
-[[exam.final]]
-name = "Final Exam"
-date = "TBD"
+[[exam]]
+name = "Midterm 1"
+date = "2026-10-09"
 
-[[exam.midterm]]
-name = "Midterm Exam"
-date = "TBD"
+[[exam]]
+name = "Midterm 2, Date Time And Location TBA"
+date = "2026-12-04"
 
 [[instructor]]
 name = "David G. Andersen"
@@ -263,9 +263,6 @@ notes="You're welcome to use the classroom or do this on your own, dga will not 
 
 
 [[lecture]]
-title = "Midterm 1"
-
-[[lecture]]
 title = "The (current) Limits of LLMs for Systems"
 instructor = "dga"
 
@@ -371,9 +368,6 @@ title = "Project Presentations"
 
 [[lecture]]
 title = "Project Presentations"
-
-[[lecture]]
-title = "Midterm 2, Date Time And Location TBA"
 
 [[post_class_event]]
 date = "2026-12-04"

@@ -24,3 +24,16 @@ Shared fields:
 - `{{ generated_at }}` — local generation date
 
 Unknown or unclosed placeholders cause generation to fail. `location` is required in every config.
+
+## Scheduled exams
+
+Configure every in-term exam as a top-level TOML array entry:
+
+```toml
+[[exam]]
+name = "Midterm 1"
+date = "2026-10-09"
+```
+
+An exam occupies its configured meeting-day slot without consuming a lecture, so the
+following lecture remains on its original date.
