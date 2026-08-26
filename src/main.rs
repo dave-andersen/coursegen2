@@ -112,7 +112,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         if let Some(h) = holidays.get(&day) {
             writeln!(
                 &mut output,
-                "<tr class=\"noclass\"><td>{dow} {}/{}<td colspan=\"3\">No Class - {h}</td></tr>",
+                "<tr class=\"noclass\"><td>{dow} {}/{}</td><td colspan=\"3\">No Class - {h}</td></tr>",
                 day.month(),
                 day.day()
             )?;
@@ -121,7 +121,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         if lecture_idx >= config.lecture.len() {
             writeln!(
                 &mut output,
-                "<tr class=\"lecture\"><td>{} {}/{}<td></td><td></td><td></td></tr>",
+                "<tr class=\"lecture\"><td>{} {}/{}</td><td></td><td></td><td></td></tr>",
                 dow,
                 day.month(),
                 day.day()
