@@ -1,0 +1,327 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>15-712 Syllabus</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>15-712 Syllabus</h1>
+<div id="topnavbar">
+<ul class="topnavlist">
+<li><a href="index.html">15-712 Home</a></li>
+<li><a href="syllabus.html">Syllabus</a></li>
+<li><a href="exams.html">Exams</a></li>
+<li><a href="announcements.html">Announcements</a></li>
+<li><a href="summaries.html">Summaries</a></li>
+<li><a href="project.html">Project</a></li>
+</ul>
+</div>
+
+<p><strong>Fall Semester 2026</strong></p>
+
+<div id="instructors">
+<h2>Instructors</h2>
+<ul><li><strong>David G. Andersen</strong> <a href="mailto:dga@cs.cmu.edu">dga@cs.cmu.edu</a> <a href="https://www.cs.cmu.edu/~dga/">webpage</a><br />Office: GHC 9109<br />Office hours: By Appointment</li>
+<li><strong>Ziyue Qiu</strong> <a href="mailto:ziyueqiu@andrew.cmu.edu">ziyueqiu@andrew.cmu.edu</a> <a href="https://ziyueqiu.github.io/">webpage</a><br />Office: GHC 5007<br />Office hours: TBA</li>
+</ul>
+</div>
+
+<div id="textbooks">
+  <h2>Textbooks<a name="Textbooks"></a></h2>
+  <p>There are no official texts for the course.  
+     If you're not familiar with the background material,
+     you may wish to look at:</p>
+  <ul>
+    <li><a href="http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2009/">Remzi Arpaci-Dusseau's OS lecture notes</a> are a great, free, online resource for background ugrad OS concepts.</a></li>
+    <li><b>Operating Systems: Principles and Practice</b>, by Thomas Anderson and Michael Dahlin.</li>
+    <li><b>Computer Networks: A Systems Approach</b>, third edition, by 
+     Larry Peterson and Bruce Davie.
+     It is available in the CMU Bookstore. Covers background networking
+     material that we assume students will be generally familiar with.</li>
+    <li><b>Advanced Programming in the Unix Environment</b> by W. Richard Stevens, Addison-Wesley, 1993.</li>
+    <li><b>Unix Network Programming:
+    Networking APIs: Sockets and XTI (Volume 1)</b> by W. Richard Stevens.</li>
+    <li><b>The Art of Computer Systems Performance Analysis</b>, by Raj Jain.</li>
+    <li><b>Distributed Algorithms</b>, by Nancy Lynch</li>
+  </ul>
+
+You might take a peek at the two CMU undergrad systems courses for
+background information on operating systems (<a
+href="http://www.cs.cmu.edu/~410/">15-410</a>) and networking (<a
+href="http://www.cs.cmu.edu/~srini/15-441/F06">15-441</a>).
+
+  <h2>Suggested Readings<a name="Suggested"></a></h2>
+  <p>You may also find the following readings useful:</p>
+  <ul>
+    <li><b>The Mythical Man-Month: Essays on Software Engineering</b>, by Fred Brooks</li>
+    <li><b><a href="papers/howard88.pdf">
+        Scale and performance in a distributed file system</a></b>, 
+        Howard, Kazar, Menees, Nichols, Satyanarayanan, Sidebotham, and West. 
+        ACM Transactions on Computer Systems (Feb 1988).
+        This paper describes AFS, and is cited by most papers that evaluate 
+        filesystem performance.  Many people simply know this paper as 
+        Howard88.  You may find this interesting because you use AFS, and 
+        you may need to cite this if you build a storage system.</li>
+    <li><b><a href="papers/saltzer84.pdf">
+        End-to-end arguments in system design</a></b>,
+        Saltzer, Reed, and Clark.  
+        ACM Transactions on Computer Systems (Nov 1984).
+        This paper presents the design principle that functionality should 
+        be end-to-end.  For example, data should be verified or encrypted 
+        at the source and destination rather than along the way.  
+        Mechanisms in the middle tend to be redundant.</li>
+  </ul>
+
+</div>
+
+<div id="Grading">
+<h2>Grading</h2>
+<p>Your final grade for the course will be based on the following weights:</p>
+<ul>
+  <li>40% Project</li>
+  <li>20% Midterm exam</li>
+  <li>20% Final exam</li>
+  <!--<li>20% Quiz 1</li>-->
+  <!--<li>20% Quiz 2</li>-->
+  <li>20% Paper Summaries, homeworks, and participation</li>
+</ul>
+
+<!--<p>The quizzes will be in-class, one near midterm and one near the end of the
+semester.</p>-->
+
+<p>
+The project in 15-712 is an open-ended research project, done in
+groups of three.  The project requires a proposal, a project status
+report, and a final report (both written and presented). 
+</p>
+
+</div>
+
+<div id="Schedule">
+  <h2>Schedule<a name="Schedule"></a></h2>
+
+<!--<p><b>Note</b>:  Class will meet on average twice per week, but there will be a few weeks where we only meet once and a few where we meet thrice.  <i>Most</i> weeks are Monday-Friday, but please consult the schedule!</p>-->
+
+<table class="schedule">
+  <tr>
+   <th>Date</th>
+   <th>Topics</th>
+   <th>Notes</th>
+   <th>Readings</th>
+ </tr>
+<tr class="lecture"><td>Mon 8/24 dga</td>
+<td>Introduction</td><td>Wisdom papers</td>
+<td>
+<a href="papers/HowtoReadPaper.pdf">KeshavHowToRead</a>, <a href="papers/howtoreadacspaper.pdf">StentHowToRead</a>, <a href="papers/reading-levis.pdf">LevisHowToRead</a>, <a href="papers/hamming86.pdf">Hamming86</a>, <a href="papers/lampson83.pdf">Lampson83</a></td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 1: Concurrency, Threads, Parallelism, Ordering, and Races</td></tr>
+<tr class="lecture"><td>Wed 8/26 dga</td>
+<td>Implementing remote procedure calls</td><td>SigOps HoF paper. Optional: <a href='https://www.usenix.org/system/files/nsdi23-chen-jingrong.pdf'>Chen2023</a>.</td>
+<td>
+<a href="papers/saltzer84.pdf">Saltzer84</a>, <a href="papers/birrell84.pdf">Birrell84</a></td>
+</tr>
+<tr class="lecture"><td>Fri 8/28 dga</td>
+<td>Ensō: A Streaming Interface for NIC-Application Communication</td><td>OSDI '23 Best Paper</td>
+<td>
+<a href="https://www.usenix.org/system/files/osdi23-sadok.pdf">Sadok23</a></td>
+</tr>
+<tr class="lecture"><td>Mon 8/31 dga</td>
+<td>Using Threads in Interactive Systems: A Case Study</td><td></td>
+<td>
+<a href="papers/hauser93.pdf">Hauser93</a></td>
+</tr>
+<tr class="lecture"><td>Wed 9/2 dga</td>
+<td>Time, Clocks, and the Ordering of Events in a Distributed System</td><td>SigOps HoF paper</td>
+<td>
+<a href="papers/lamport78.pdf">Lamport78</a></td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 2: More bugs than a bait store</td></tr>
+<tr class="lecture"><td>Fri 9/4 dga</td>
+<td>Eraser: A Dynamic Data Race Detector for Multi-Threaded Programs</td><td>SOSP'97 best paper. <a href='http://www.stanford.edu/~engler/deviant-sosp-01.pdf'>Bugs as Deviant Behavior</a> (SOSP'01).</td>
+<td>
+<a href="papers/savage97.pdf">Savage97</a></td>
+</tr>
+<tr class="noclass"><td>Mon 9/7</td><td colspan="3">No Class - Labor Day</td></tr>
+<tr class="lecture"><td>Wed 9/9 dga</td>
+<td>IronFleet: Proving Practical Distributed Systems Correct</td><td>A <a href='https://blog.acolyer.org/2015/10/15/ironfleet-proving-practical-distributed-systems-correc/'>discussion in The Morning Paper</a>.</td>
+<td>
+<a href="https://www.andrew.cmu.edu/user/bparno/papers/ironfleet.pdf">Hawblitzel15</a></td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 3: File Systems and Disks</td></tr>
+<tr class="lecture"><td>Fri 9/11 dga</td>
+<td>AFS</td><td><a href='http://portal.acm.org/citation.cfm?id=74850.74870'>Leases paper</a>. SigOps HoF papers</td>
+<td>
+<a href="papers/howard88.pdf">Howard88</a></td>
+</tr>
+<tr class="lecture"><td>Mon 9/14 dga</td>
+<td>The Design and Implementation of a Log-Structured File System</td><td>SigOps HoF paper.</td>
+<td>
+<a href="papers/rosenblum92.pdf">Rosenblum92</a></td>
+</tr>
+<tr class="lecture"><td>Wed 9/16 dga</td>
+<td>A Case for Redundant Arrays of Inexpensive Disks (RAID)</td><td>SigOps HoF paper. Fast'07 best paper.</td>
+<td>
+<a href="papers/patterson88.pdf">Patterson88</a>, <a href="http://www.pdl.cmu.edu/PDL-FTP/Failure/failure-fast07.pdf">Schroeder07</a></td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 4: Big Data Systems</td></tr>
+<tr class="lecture"><td>Fri 9/18 dga</td>
+<td>MapReduce and Ray</td><td>SigOps HoF paper. For more see Spark, Nyad, and <a href='http://research.microsoft.com/en-us/projects/dryad/eurosys07.pde'>Dryad</a>.</td>
+<td>
+<a href="papers/dean04.pdf">Dean04</a>, <a href="https://www.usenix.org/system/files/osdi18-moritz.pdf">Moritz18</a></td>
+</tr>
+<tr class="noclass"><td>Mon 9/21</td><td colspan="3">No Class - Yom Kippur</td></tr>
+<tr class="lecture"><td>Wed 9/23 dga</td>
+<td>Barbarians at the Gate and KernelBench-Verified</td><td>Optional extras: <a href='https://arxiv.org/abs/2506.13131'>AlphaEvolve</a> and <a href='https://arxiv.org/abs/2510.27176'>Glia</a>.</td>
+<td>
+<a href="papers/barbarians-at-the-gate.pdf">Barbarians at the Gate</a>, <a href="papers/kernelbench-verified.pdf">KernelBench-Verified</a></td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 5: Kernels and Parallelism</td></tr>
+<tr class="lecture"><td>Fri 9/25 dga</td>
+<td>OS Architecture and Extensibility: SPIN and the Exokernel</td><td>SOSP'97 paper. SigOps HoF paper. <a href='http://www.cs.cmu.edu/~15712/papers/engler95.pdf'>Original Exokernel paper</a> <a href='https://www.sigops.org/s/conferences/sosp/2009/papers/baumann-sosp09.pdf'>Multikernel</a> (SOSP'09).</td>
+<td>
+<a href="https://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15712-s12/www/papers/bershad95.pdf">Bershad95</a>, <a href="papers/kaashoek97sosp.pdf">Kaashoek97</a></td>
+</tr>
+<tr class="lecture"><td>Mon 9/28 dga</td>
+<td>Fast, Flexible, and Practical Kernel Extensions</td><td>SOSP'24</td>
+<td>
+<a href="https://rs3lab.github.io/assets/papers/2024/dwivedi%3Akflex.pdf">Dwivedi24</a></td>
+</tr>
+<tr class="lecture"><td>Wed 9/30 </td>
+<td>Project Discussions (in class)</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 10/2 dga</td>
+<td>Fault Tolerance: Primary-Backup State Machine Replication</td><td></td>
+<td>
+<a href="http://nil.csail.mit.edu/6.824/2022/papers/vm-ft.pdf">VMFT</a></td>
+</tr>
+<tr class="lecture"><td>Mon 10/5 dga</td>
+<td>Paxos</td><td><a href='http://en.wikipedia.org/wiki/Paxos_algorithm'>Wikipedia Paxos article</a>. <a href='http://research.microsoft.com/users/lamport/pubs/lamport-paxos.pdf'>Lamport's original Greek parable</a> <a href='http://lamport.azurewebsites.net/pubs/pubs.html#lamport-paxos'>Lamport's comments on original paper.</a>.</td>
+<td>
+<a href="papers/paxos-simple.pdf">Lamport01</a></td>
+</tr>
+<tr class="lecture"><td>Wed 10/7 </td>
+<td>Midterm Review (no lecture)</td><td>You're welcome to use the classroom or do this on your own, dga will not be there.</td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 10/9 </td>
+<td>Midterm 1</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="noclass"><td>Mon 10/12</td><td colspan="3">No Class - Fall Break</td></tr>
+<tr class="noclass"><td>Wed 10/14</td><td colspan="3">No Class - Fall Break</td></tr>
+<tr class="noclass"><td>Fri 10/16</td><td colspan="3">No Class - Fall Break</td></tr>
+<tr class="lecture"><td>Mon 10/19 dga</td>
+<td>The (current) Limits of LLMs for Systems</td><td></td>
+<td>
+<a href="papers/slow-software.pdf">Slow Software</a>, <a href="papers/can-llms-model-real-world-systems-in-tla.pdf">Can LLMs model real-world systems in TLA+?</a></td>
+</tr>
+<tr class="lecture"><td>Wed 10/21 </td>
+<td>Project Meetings</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 10/23 </td>
+<td>No class</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 6: Transactions and Databases</td></tr>
+<tr class="lecture"><td>Mon 10/26 dga</td>
+<td>On Optimistic Methods for Concurrency Control</td><td>SigOps HoF paper. <a href='http://www.cs.cmu.edu/~dga/15-849/papers/speculator-sosp2005.pdf'>Spectulative Execution in a Distributed File System</a> <a href='http://www.cs.cmu.edu/~15712/papers/Lehman81.pdf'>Efficient Locking for Concurrent Operations on B-Trees</a></td>
+<td>
+<a href="papers/kung81.pdf">Kung81</a></td>
+</tr>
+<tr class="lecture"><td>Wed 10/28 </td>
+<td>No class</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 10/30 </td>
+<td>Project Meetings (all day)</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Mon 11/2 dga</td>
+<td>Concurrency Control and Recovery</td><td><a href='http://www.cs.cmu.edu/~15712/papers/bernstein83.pdf'>Bernstein's concurrency notes - MVCC</a>, <a href='http://www.cs.cmu.edu/~15712/papers/bailis14.pdf'>Coordination Avoidance</a></td>
+<td>
+<a href="papers/franklin97concurrency.pdf">Franklin97</a></td>
+</tr>
+<tr class="lecture"><td>Wed 11/4 </td>
+<td>No class</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lechead"><td class="lechead" colspan="4">Part 7: Generalized Fault Tolerance and Security</td></tr>
+<tr class="lecture"><td>Fri 11/6 dga</td>
+<td>The Byzantine Generals Problem</td><td><a href='http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html#byz'>Lamport's comments on the Byzantine Generals paper.</a></td>
+<td>
+<a href="papers/lamport82.pdf">Lamport82</a>, <a href="papers/castro99.pdf">Castro99</a></td>
+</tr>
+<tr class="lecture"><td>Mon 11/9 </td>
+<td>No class</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Wed 11/11 dga</td>
+<td>Reflections on Trusting Trust, Why Cryptosystems Fail, Crisis and Aftermath</td><td>SigOps HoF paper. Write Summary only for Anderson94.</td>
+<td>
+<a href="papers/p761-thompson.pdf">Thompson84</a>, <a href="papers/anderson94.pdf">Anderson94</a>, <a href="papers/Spafford89.pdf">Spafford89</a></td>
+</tr>
+<tr class="lecture"><td>Fri 11/13 </td>
+<td>No class.</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Mon 11/16 </td>
+<td>No Class</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Wed 11/18 </td>
+<td>Highlights from the SOSP15 History Day Talks</td><td><a href='https://www.sigops.org/s/conferences/sosp/2015/history/'>SOSP15 History Day.</a></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 11/20 </td>
+<td>Effective Presentations</td><td></td>
+<td>
+<a href="papers/effective_presentations.pdf">Ware24</a>, <a href="papers/PLMW-talk-opinionated.pdf">PLMW24</a></td>
+</tr>
+<tr class="noclass"><td>Mon 11/23</td><td colspan="3">No Class - Early Thanksgiving Break</td></tr>
+<tr class="noclass"><td>Wed 11/25</td><td colspan="3">No Class - Thanksgiving Break</td></tr>
+<tr class="noclass"><td>Fri 11/27</td><td colspan="3">No Class - Thanksgiving Break</td></tr>
+<tr class="lecture"><td>Mon 11/30 </td>
+<td>Project Presentations</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Wed 12/2 </td>
+<td>Project Presentations</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 12/4 </td>
+<td>Midterm 2, Date Time And Location TBA</td><td></td>
+<td>
+</td>
+</tr>
+<tr class="lecture"><td>Fri 12/4 </td>
+<td>Final Report Due by 11:59pm</td><td></td><td></td></tr>
+
+
+</table>
+</div>
+
+<hr />
+<p class="lastupdated">Last updated: 2026-08-26
+ [<a href="http://validator.w3.org/check?uri=referer">validate xhtml</a>]</p>
+</body>
+</html>

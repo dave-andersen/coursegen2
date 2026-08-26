@@ -80,7 +80,7 @@ link = "lampson83.pdf"
 [[lecture]]
 section_header = "Part 1: Concurrency, Threads, Parallelism, Ordering, and Races"
 title = "Implementing remote procedure calls"
-notes = "SigOps HoF paper"
+notes = "SigOps HoF paper. Optional: <a href='https://www.usenix.org/system/files/nsdi23-chen-jingrong.pdf'>Chen2023</a>."
 instructor = "dga"
 
 [[lecture.papers]]
@@ -91,9 +91,6 @@ link = "saltzer84.pdf"
 title = "Birrell84"
 link = "birrell84.pdf"
 
-[[lecture.papers]]
-title = "Chen2023"
-link = "https://www.usenix.org/system/files/nsdi23-chen-jingrong.pdf"
 
 [[lecture]]
 title = "Ensō: A Streaming Interface for NIC-Application Communication"

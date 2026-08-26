@@ -1,0 +1,160 @@
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>15-712 Advanced and Distributed Operating Systems, {{ semester }}</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<h1>15-712 Advanced and Distributed Operating Systems, {{ semester }}</h1>
+<div id="topnavbar">
+<ul class="topnavlist">
+<li><a href="index.html">15-712 Home</a></li>
+<li><a href="syllabus.html">Syllabus</a></li>
+<li><a href="exams.html">Exams</a></li>
+<li><a href="announcements.html">Announcements</a></li>
+<li><a href="summaries.html">Summaries</a></li>
+<li><a href="project.html">Project</a></li>
+</ul>
+</div>
+
+
+<div id="overview">
+<div id="news">
+<h2>Latest Announcements</h2>
+
+<dl class="newslist">
+
+  <dt>8/24:  First day of class is Monday</dt>
+    <dd>Welcome to Fall 2026</dd>
+
+</dl>
+
+<p><a href="announcements.html">See all announcements</a>
+<a href="rss2.xml"><img src="xml.gif"/>RSS 2.0 feed</a>
+</p>
+</div>
+<div id="overview_main">
+<h2>Overview</h2>
+<!--<p><em>This website is still being updated.  Please come back and check later.</em></p>-->
+<p>
+15-712 is a PhD course in operating systems.  The goals are:
+</p>
+<ul>
+ <li>To understand the state of the art in operating systems and distributed systems, and how and why we got there.</li>
+ <li>To understand how to engage in systems research.</li>
+ <li>To investigate novel ideas in systems through a semester-long research project.</li>
+</ul>
+<p>
+Please note:  This course is open to SCS Ph.D. students.  Other students may be admitted by the permission of the instructor;  please attend the first few sessions to see if you're interested.  There will be a hard limit for the total number of students to ensure sufficient "face-time" for project meetings.
+</p>
+
+<p>
+This course assumes a basic familiarity with operating sytems concepts.
+The course will consist of a reading/lecture/discussion component
+and a project component. The class will cover approximately 40
+research papers. Some of these
+papers will introduce students to the basic principles on
+which modern operating systems and distributed systems are based.
+Others will cover more recent work to explore the state of the art and observe the evolution of these systems over time.
+</p>
+
+<p>
+Students are expected to read papers before the class and
+participate in the discussion during the class.
+</p>
+
+
+<ul>
+<li>Lecture time: {{ meeting_times }}<br />
+    <b>Note: Class will meet on average two times per week.</b> See the syllabus for the exact schedule.</li>
+<li>Units: 12</li>
+<li>Location: {{ location }}</li>
+</ul>
+</div>
+
+<!-- ugly: needed to prevent the announcements from bleeding over -->
+<hr style="clear: both; visibility: hidden;" />
+</div>
+
+<div id="staff">
+<h2>Course Staff</h2>
+
+<table class="people">
+<tr>
+<th>Name</th><th>Email</th><th>Office</th><th>Tel</th><th>Office Hours</th></tr>
+{% for instructor in instructors %}
+<tr>
+<td>{% if instructor.webpage %}<a href="{{ instructor.webpage }}">{{ instructor.name }}</a>{% else %}{{ instructor.name }}{% endif %}</td>
+<td><span class="email">{{ instructor.email }}</span></td>
+<td>{{ instructor.office }}</td>
+<td>-</td>
+<td>{{ instructor.hours }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Course Secretary</h3>
+<p>
+Emi Perdan <span class="email">eperdan@cs.cmu.edu</span>
+</p>
+</div>
+
+<div id="policies">
+<h2>Course Policies</h2>
+
+<h3>Collaboration</h3>
+
+<p>Students are encouraged to talk to each other, to the course staff,
+or to anyone else about any of the assignments.
+Assistance must be limited to discussion of the problem and
+sketching general approaches to a solution. Each student must write
+out his or her own solutions to the homework.
+</p>
+
+<p>Students <b>MUST</b> write paper summaries on their own. No AI or autocomplete use is permitted. Violating this policy will result in failing the course. The paper summaries are an integral part of working through the material: By writing your thoughts down after you read it, you exercise te neural pathways that remember information about the paper. The summaries are <b>part of the learning process</b>.</p>
+
+<p><b>You are allowed to use AI as part of your research project - but you must
+	write up your paper on your own</b>. Writing the paper is where you
+make sure you really understand what's going on. It's part of the thinking
+process, it's not just mechanical. You need to do this yourself. You're
+welcome to use AI assistance after you draft it to fix spelling and grammar
+and even get feedback, but please don't let the LLM override your voice and
+way of communicating. LLMs are much better coders than they are writers.
+</p>
+
+<p><b>You are responsible for the correctness of your results, AI or not.</b>
+Research relies on us being careful scientists. You need to be certain
+your results actually say what you're presenting them as. You need to be
+certain your code is implementing what you believe it is. If you've
+used AI to generate substantial chunks of code, you are responsible
+for verifying that it did what you think it does, whether that's
+through manual inspection, very extensive testing, or even formal
+verification. You are the final line of research responsibility,
+AI or not.</p>
+
+<h3>Late Policy</h3>
+
+<ul>
+  <li>The deadline for any assignment 
+      can be extended with a 10% penalty per day.</li>
+  <li>No deadline can be extended by more than two days.
+   Assignments will <b>NOT</b> 
+   be accepted 48 hours after the due date.</li>
+  <li>The project presentations must be given on the day they
+      are scheduled.</li>
+
+  <li><i>If you are ill on a deadline</i>:  Contact the instructor and get a medical note.</li>
+  <li>This is a graduate-level course: All policies can be flexible
+      (except the no AI on summaries one). Stay in touch with the
+      course staff.</li>
+</ul>
+</div>
+
+<hr />
+</body>
+</html>
