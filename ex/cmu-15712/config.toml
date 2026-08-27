@@ -32,6 +32,10 @@ webpage = "https://ziyueqiu.github.io/"
 office = "GHC 5007"
 hours = "TBA"
 
+[course_secretary]
+name = "Emi Perdan"
+email = "eperdan@cs.cmu.edu"
+
 [[holiday]]
 dates = ["2026-09-07"]
 name = "Labor Day"

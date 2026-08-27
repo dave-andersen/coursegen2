@@ -39,6 +39,7 @@ struct Config {
     post_class_event: Vec<PostClassEvent>,
     #[serde(default)]
     announcement: Vec<AnnouncementConfig>,
+    course_secretary: Option<CourseSecretary>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -53,6 +54,12 @@ struct AnnouncementConfig {
     date: NaiveDate,
     title: String,
     body: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct CourseSecretary {
+    name: String,
+    email: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -349,6 +356,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     context.insert("generated_at", &generated_at);
     context.insert("announcements", &announcements);
     context.insert("recent_announcements", &recent_announcements);
+    context.insert("course_secretary", &config.course_secretary);
 
     let mut tera = Tera::default();
     tera.add_raw_template("syllabus_template.html", &syllabus_template)?;
@@ -435,6 +443,7 @@ mod tests {
             lecture,
             post_class_event: Vec::new(),
             announcement: Vec::new(),
+            course_secretary: None,
         }
     }
 
@@ -544,6 +553,7 @@ mod tests {
                 notes: None,
             }],
             announcement: Vec::new(),
+            course_secretary: None,
         };
         let exam = super::Exam {
             name: "Midterm 1".to_owned(),
@@ -764,6 +774,26 @@ mod tests {
         assert_eq!(
             rendered.ok().as_deref(),
             Some("<dl><dt>9&#x2F;1: Newer</dt><dt>8&#x2F;24: First</dt></dl>")
+        );
+    }
+
+    #[test]
+    fn tera_renders_configured_course_secretary() {
+        let secretary = Some(super::CourseSecretary {
+            name: "Test Person".to_owned(),
+            email: "test@example.test".to_owned(),
+        });
+        let mut context = Context::new();
+        context.insert("course_secretary", &secretary);
+        let rendered = Tera::one_off(
+            "{% if course_secretary %}<p>{{ course_secretary.name }} <span class=\"email\">{{ course_secretary.email }}</span></p>{% endif %}",
+            &context,
+            true,
+        );
+
+        assert_eq!(
+            rendered.ok().as_deref(),
+            Some("<p>Test Person <span class=\"email\">test@example.test</span></p>")
         );
     }
 }

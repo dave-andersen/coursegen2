@@ -191,12 +191,11 @@ table.schedule {
   border-collapse:  collapse;
 }
 
-table.Schedule tr,th,td { 
-  padding: 3px;  
-  border-width: 1px; 
-  border-spacing: 0px; 
-  border-style: solid;  
-  border-color: black;
+table.schedule th,
+table.schedule td {
+  padding: 5px;
+  border: 1px solid black;
+  vertical-align: top;
 }
 
 /* Presentation:  No underlines on links in schedule unless you're
@@ -213,6 +212,25 @@ table.schedule tr.lechead { font-weight: bold; text-align: center; }
 
 table.schedule tr.lecture:nth-child(odd) {
   background-color: #ddd;
+}
+
+.schedule-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 700px) {
+  table.schedule {
+    width: 720px;
+    min-width: 720px;
+    margin: 0;
+  }
+
+  table.schedule th,
+  table.schedule td {
+    padding: 8px;
+  }
 }
 
 

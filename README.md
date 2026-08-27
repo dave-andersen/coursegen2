@@ -47,6 +47,14 @@ Shared fields:
 `YYYY-MM-DD`; `meets` accepts weekday names such as `mon` or `monday`.
 
 Each instructor may provide `name`, `email`, `webpage`, `office`, and `hours`.
+
+Configure the optional course secretary with:
+
+```toml
+[course_secretary]
+name = "Emi Perdan"
+email = "eperdan@cs.cmu.edu"
+```
 Each lecture requires `title` and may provide `notes`, `instructor`,
 `section_header`, and `[[lecture.papers]]` entries with `title` and `link`.
 

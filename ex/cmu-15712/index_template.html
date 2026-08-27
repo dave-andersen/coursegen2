@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>15-712 Advanced and Distributed Operating Systems, {{ semester }}</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -75,7 +76,7 @@ participate in the discussion during the class.
 
 <table class="people">
 <tr>
-<th>Name</th><th>Email</th><th>Office</th><th>Tel</th><th>Office Hours</th></tr>
+<th scope="col">Name</th><th scope="col">Email</th><th scope="col">Office</th><th scope="col">Tel</th><th scope="col">Office Hours</th></tr>
 {% for instructor in instructors %}
 <tr>
 <td>{% if instructor.webpage %}<a href="{{ instructor.webpage }}">{{ instructor.name }}</a>{% else %}{{ instructor.name }}{% endif %}</td>
@@ -87,10 +88,12 @@ participate in the discussion during the class.
 {% endfor %}
 </table>
 
+{% if course_secretary %}
 <h3>Course Secretary</h3>
 <p>
-Emi Perdan <span class="email">eperdan@cs.cmu.edu</span>
+{{ course_secretary.name }} <span class="email">{{ course_secretary.email }}</span>
 </p>
+{% endif %}
 </div>
 
 <div id="policies">
