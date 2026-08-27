@@ -1,12 +1,9 @@
-
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html 
- PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
 <title>15-712 Syllabus</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>15-712 Syllabus</h1>
@@ -25,7 +22,11 @@
 
 <div id="instructors">
 <h2>Instructors</h2>
-{{ syllabus_instructors | safe }}
+<ul>
+{% for instructor in instructors %}
+<li>{% if instructor.name %}<strong>{{ instructor.name }}</strong>{% endif %}{% if instructor.email %} <a href="mailto:{{ instructor.email }}">{{ instructor.email }}</a>{% endif %}{% if instructor.webpage %} <a href="{{ instructor.webpage }}">webpage</a>{% endif %}{% if instructor.office %}<br />Office: {{ instructor.office }}{% endif %}{% if instructor.hours %}<br />Office hours: {{ instructor.hours }}{% endif %}</li>
+{% endfor %}
+</ul>
 </div>
 
 <div id="textbooks">
@@ -34,7 +35,7 @@
      If you're not familiar with the background material,
      you may wish to look at:</p>
   <ul>
-    <li><a href="http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2009/">Remzi Arpaci-Dusseau's OS lecture notes</a> are a great, free, online resource for background ugrad OS concepts.</a></li>
+    <li><a href="http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2009/">Remzi Arpaci-Dusseau's OS lecture notes</a> are a great, free, online resource for background ugrad OS concepts.</li>
     <li><b>Operating Systems: Principles and Practice</b>, by Thomas Anderson and Michael Dahlin.</li>
     <li><b>Computer Networks: A Systems Approach</b>, third edition, by 
      Larry Peterson and Bruce Davie.
@@ -117,7 +118,6 @@ report, and a final report (both written and presented).
 </div>
 
 <hr />
-<p class="lastupdated">Last updated: {{ generated_at }}
- [<a href="http://validator.w3.org/check?uri=referer">validate xhtml</a>]</p>
+<p class="lastupdated">Last updated: {{ generated_at }}</p>
 </body>
 </html>

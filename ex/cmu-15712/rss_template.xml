@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>15-712 Announcements</title>
+<link>index.html</link>
+<description>Announcements for {{ semester }}</description>
+{% for announcement in announcements %}
+<item>
+<title>{{ announcement.title }}</title>
+<description>{{ announcement.body }}</description>
+<pubDate>{{ announcement.rss_date }}</pubDate>
+</item>
+{% endfor %}
+</channel>
+</rss>

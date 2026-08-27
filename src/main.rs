@@ -37,6 +37,8 @@ struct Config {
     lecture: Vec<Lecture>,
     #[serde(default)]
     post_class_event: Vec<PostClassEvent>,
+    #[serde(default)]
+    announcement: Vec<AnnouncementConfig>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -44,6 +46,23 @@ struct PostClassEvent {
     date: NaiveDate,
     title: String,
     notes: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct AnnouncementConfig {
+    date: NaiveDate,
+    title: String,
+    body: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct Announcement {
+    date: String,
+    rss_date: String,
+    title: String,
+    body: String,
+    #[serde(skip_serializing)]
+    sort_date: NaiveDate,
 }
 
 #[derive(Debug, Deserialize)]
@@ -97,33 +116,6 @@ fn weekday_from_str(s: &str) -> Result<Weekday, String> {
     }
 }
 
-fn instructor_html(instructors: &[Instructor]) -> Result<String, std::fmt::Error> {
-    let mut html = String::from("<ul>");
-
-    for instructor in instructors {
-        write!(&mut html, "<li>")?;
-        if let Some(name) = &instructor.name {
-            write!(&mut html, "<strong>{name}</strong>")?;
-        }
-        if let Some(email) = &instructor.email {
-            write!(&mut html, " <a href=\"mailto:{email}\">{email}</a>")?;
-        }
-        if let Some(webpage) = &instructor.webpage {
-            write!(&mut html, " <a href=\"{webpage}\">webpage</a>")?;
-        }
-        if let Some(office) = &instructor.office {
-            write!(&mut html, "<br />Office: {office}")?;
-        }
-        if let Some(hours) = &instructor.hours {
-            write!(&mut html, "<br />Office hours: {hours}")?;
-        }
-        writeln!(&mut html, "</li>")?;
-    }
-
-    html.push_str("</ul>");
-    Ok(html)
-}
-
 fn holiday_map(holidays: &[Holiday]) -> Result<HashMap<NaiveDate, String>, String> {
     let mut holidays_by_date = HashMap::new();
 
@@ -139,6 +131,43 @@ fn holiday_map(holidays: &[Holiday]) -> Result<HashMap<NaiveDate, String>, Strin
     }
 
     Ok(holidays_by_date)
+}
+
+fn announcement_views(config: &Config, semester: &str) -> Vec<Announcement> {
+    let mut announcements: Vec<Announcement> = config
+        .announcement
+        .iter()
+        .map(|announcement| Announcement {
+            date: announcement.date.format("%-m/%-d").to_string(),
+            rss_date: announcement
+                .date
+                .format("%a, %-d %b %Y 00:00:00 +0000")
+                .to_string(),
+            title: announcement.title.clone(),
+            body: announcement.body.clone(),
+            sort_date: announcement.date,
+        })
+        .collect();
+    announcements.push(Announcement {
+        date: config.first_day.format("%-m/%-d").to_string(),
+        rss_date: config
+            .first_day
+            .format("%a, %-d %b %Y 00:00:00 +0000")
+            .to_string(),
+        title: format!("First day of class is {}", config.first_day.format("%A")),
+        body: format!("Welcome to {semester}"),
+        sort_date: config.first_day,
+    });
+    announcements.sort_by_key(|announcement| std::cmp::Reverse(announcement.sort_date));
+    announcements
+}
+
+fn optional_template(path: &str) -> Result<Option<String>, std::io::Error> {
+    match std::fs::read_to_string(path) {
+        Ok(template) => Ok(Some(template)),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(error) => Err(error),
+    }
 }
 
 fn schedule_html(
@@ -295,25 +324,46 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         config.ends
     );
     let generated_at = chrono::Local::now().format("%Y-%m-%d").to_string();
-    let syllabus_instructors = instructor_html(&config.instructor)?;
+    let announcements = announcement_views(&config, &semester);
+    let recent_announcements: Vec<Announcement> = announcements.iter().take(2).cloned().collect();
     let syllabus_template = std::fs::read_to_string("syllabus_template.html")?;
-    let index_template = match std::fs::read_to_string("index_template.html") {
-        Ok(template) => Some(template),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
-        Err(error) => return Err(error.into()),
-    };
+    let index_template = optional_template("index_template.html")?;
+    let announcements_template = optional_template("announcements_template.html")?;
+    let (announcements_list_template, announcements_preview_template, rss_template) =
+        if announcements_template.is_some() {
+            (
+                Some(std::fs::read_to_string("announcements_list.html")?),
+                Some(std::fs::read_to_string("announcements_preview.html")?),
+                Some(std::fs::read_to_string("rss_template.xml")?),
+            )
+        } else {
+            (None, None, None)
+        };
 
     let mut context = Context::new();
     context.insert("semester", &semester);
     context.insert("meeting_times", &meeting_times);
     context.insert("location", &config.location);
     context.insert("instructors", &config.instructor);
-    context.insert("syllabus_instructors", &syllabus_instructors);
     context.insert("schedule", &schedule);
     context.insert("generated_at", &generated_at);
+    context.insert("announcements", &announcements);
+    context.insert("recent_announcements", &recent_announcements);
 
     let mut tera = Tera::default();
     tera.add_raw_template("syllabus_template.html", &syllabus_template)?;
+    if let Some(template) = &announcements_list_template {
+        tera.add_raw_template("announcements_list.html", template)?;
+    }
+    if let Some(template) = &announcements_preview_template {
+        tera.add_raw_template("announcements_preview.html", template)?;
+    }
+    if let Some(template) = &rss_template {
+        tera.add_raw_template("rss_template.xml", template)?;
+    }
+    if let Some(template) = &announcements_template {
+        tera.add_raw_template("announcements_template.html", template)?;
+    }
     if let Some(template) = &index_template {
         tera.add_raw_template("index_template.html", template)?;
     }
@@ -322,6 +372,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let index = index_template
         .as_ref()
         .map(|_| tera.render("index_template.html", &context))
+        .transpose()?;
+    let announcements_page = announcements_template
+        .as_ref()
+        .map(|_| tera.render("announcements_template.html", &context))
+        .transpose()?;
+    let rss = rss_template
+        .as_ref()
+        .map(|_| tera.render("rss_template.xml", &context))
         .transpose()?;
 
     let mut syllabus_output = AtomicWriteFile::options().open("syllabus.html")?;
@@ -332,6 +390,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut index_output = AtomicWriteFile::options().open("index.html")?;
         index_output.write_all(index.as_bytes())?;
         index_output.commit()?;
+    }
+    if let Some(announcements_page) = announcements_page {
+        let mut announcements_output = AtomicWriteFile::options().open("announcements.html")?;
+        announcements_output.write_all(announcements_page.as_bytes())?;
+        announcements_output.commit()?;
+    }
+    if let Some(rss) = rss {
+        let mut rss_output = AtomicWriteFile::options().open("rss2.xml")?;
+        rss_output.write_all(rss.as_bytes())?;
+        rss_output.commit()?;
     }
 
     Ok(())
@@ -366,6 +434,7 @@ mod tests {
             exam: Vec::new(),
             lecture,
             post_class_event: Vec::new(),
+            announcement: Vec::new(),
         }
     }
 
@@ -400,25 +469,28 @@ mod tests {
     }
 
     #[test]
-    fn tera_renders_serialized_instructors_for_index_templates() {
+    fn tera_renders_serialized_instructors_for_syllabus_templates() {
         let instructors = [super::Instructor {
             name: Some("Ada Lovelace".to_owned()),
             email: Some("ada@example.test".to_owned()),
-            webpage: None,
+            webpage: Some("https://example.test/ada".to_owned()),
             office: Some("Room 101".to_owned()),
-            hours: None,
+            hours: Some("Tuesday".to_owned()),
         }];
         let mut context = Context::new();
         context.insert("instructors", &instructors);
         let mut tera = Tera::default();
         let rendered = tera
             .add_raw_template(
-                "index_template.html",
-                "{% for instructor in instructors %}{{ instructor.name }}: {{ instructor.office }}{% endfor %}",
+                "syllabus_template.html",
+                "{% for instructor in instructors %}{% if instructor.name %}<strong>{{ instructor.name }}</strong>{% endif %}{% if instructor.email %} <a href=\"mailto:{{ instructor.email }}\">{{ instructor.email }}</a>{% endif %}{% if instructor.webpage %} <a href=\"{{ instructor.webpage }}\">webpage</a>{% endif %}{% if instructor.office %}<br />Office: {{ instructor.office }}{% endif %}{% if instructor.hours %}<br />Office hours: {{ instructor.hours }}{% endif %}{% endfor %}",
             )
-            .and_then(|()| tera.render("index_template.html", &context));
+            .and_then(|()| tera.render("syllabus_template.html", &context));
 
-        assert_eq!(rendered.ok().as_deref(), Some("Ada Lovelace: Room 101"));
+        assert_eq!(
+            rendered.ok().as_deref(),
+            Some("<strong>Ada Lovelace</strong> <a href=\"mailto:ada@example.test\">ada@example.test</a> <a href=\"https:&#x2F;&#x2F;example.test&#x2F;ada\">webpage</a><br />Office: Room 101<br />Office hours: Tuesday")
+        );
     }
 
     #[test]
@@ -471,6 +543,7 @@ mod tests {
                 title: "Final Report Due".to_owned(),
                 notes: None,
             }],
+            announcement: Vec::new(),
         };
         let exam = super::Exam {
             name: "Midterm 1".to_owned(),
@@ -580,9 +653,10 @@ mod tests {
             config.ok().map(|config| (
                 config.holiday.len(),
                 config.exam.len(),
-                config.post_class_event.len()
+                config.post_class_event.len(),
+                config.announcement.len()
             )),
-            Some((0, 0, 0))
+            Some((0, 0, 0, 0))
         );
     }
 
@@ -606,6 +680,90 @@ mod tests {
                 "duplicate holiday date 2026-10-12: \"Fall Break\" and \"University Holiday\""
                     .to_owned()
             )
+        );
+    }
+
+    #[test]
+    fn announcements_include_first_day_and_sort_newest_first() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 8, 24).unwrap();
+        let mut config = test_config(
+            first_day,
+            NaiveDate::from_ymd_opt(2026, 12, 4).unwrap(),
+            Vec::new(),
+        );
+        config.announcement = vec![super::AnnouncementConfig {
+            date: NaiveDate::from_ymd_opt(2026, 9, 1).unwrap(),
+            title: "Office hours updated".to_owned(),
+            body: "See the course staff page.".to_owned(),
+        }];
+
+        let announcements = super::announcement_views(&config, "Fall Semester 2026");
+
+        assert_eq!(
+            announcements
+                .iter()
+                .map(|announcement| {
+                    (
+                        announcement.date.clone(),
+                        announcement.title.clone(),
+                        announcement.body.clone(),
+                    )
+                })
+                .collect::<Vec<_>>(),
+            vec![
+                (
+                    "9/1".to_owned(),
+                    "Office hours updated".to_owned(),
+                    "See the course staff page.".to_owned(),
+                ),
+                (
+                    "8/24".to_owned(),
+                    "First day of class is Monday".to_owned(),
+                    "Welcome to Fall Semester 2026".to_owned(),
+                ),
+            ]
+        );
+    }
+
+    #[test]
+    fn index_preview_includes_two_most_recent_announcements() {
+        let mut context = Context::new();
+        context.insert(
+            "recent_announcements",
+            &[
+                super::Announcement {
+                    date: "9/1".to_owned(),
+                    rss_date: String::new(),
+                    title: "Newer".to_owned(),
+                    body: "Second".to_owned(),
+                    sort_date: NaiveDate::from_ymd_opt(2026, 9, 1).unwrap(),
+                },
+                super::Announcement {
+                    date: "8/24".to_owned(),
+                    rss_date: String::new(),
+                    title: "First".to_owned(),
+                    body: "Welcome".to_owned(),
+                    sort_date: NaiveDate::from_ymd_opt(2026, 8, 24).unwrap(),
+                },
+            ],
+        );
+        let mut tera = Tera::default();
+        let rendered = tera
+            .add_raw_template(
+                "announcements_preview.html",
+                "{% for announcement in recent_announcements %}<dt>{{ announcement.date }}: {{ announcement.title }}</dt>{% endfor %}",
+            )
+            .and_then(|()| {
+                tera.add_raw_template(
+                    "index_template.html",
+                    "<dl>{% include \"announcements_preview.html\" %}</dl>",
+                )
+            })
+            .and_then(|()| tera.render("index_template.html", &context));
+
+        assert_eq!(
+            rendered.ok().as_deref(),
+            Some("<dl><dt>9&#x2F;1: Newer</dt><dt>8&#x2F;24: First</dt></dl>")
         );
     }
 }

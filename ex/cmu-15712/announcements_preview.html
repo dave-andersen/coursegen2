@@ -1,0 +1,6 @@
+<dl class="newslist">
+{% for announcement in recent_announcements %}
+<dt>{{ announcement.date }}: {{ announcement.title }}</dt>
+<dd>{{ announcement.body }}</dd>
+{% endfor %}
+</dl>

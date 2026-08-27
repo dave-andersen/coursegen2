@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>15-712 Announcements, {{ semester }}</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>15-712 Announcements, {{ semester }}</h1>
+<div id="topnavbar">
+<ul class="topnavlist">
+<li><a href="index.html">15-712 Home</a></li>
+<li><a href="syllabus.html">Syllabus</a></li>
+<li><a href="exams.html">Exams</a></li>
+<li><a href="announcements.html">Announcements</a></li>
+<li><a href="summaries.html">Summaries</a></li>
+<li><a href="project.html">Project</a></li>
+</ul>
+</div>
+
+<main id="announcements">
+<h2>Announcements</h2>
+{% include "announcements_list.html" %}
+</main>
+</body>
+</html>
