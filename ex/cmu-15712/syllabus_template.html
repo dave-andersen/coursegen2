@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>15-712 Syllabus</title>
+<title>15-712 Schedule</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>15-712 Syllabus</h1>
+<h1>15-712 Schedule</h1>
 <div id="topnavbar">
 <ul class="topnavlist">
 <li><a href="index.html">15-712 Home</a></li>
@@ -21,83 +21,6 @@
 
 <p><strong>{{ semester }}</strong></p>
 
-<div id="instructors">
-<h2>Instructors</h2>
-<ul>
-{% for instructor in instructors %}
-<li>{% if instructor.name %}<strong>{{ instructor.name }}</strong>{% endif %}{% if instructor.email %} <a href="mailto:{{ instructor.email }}">{{ instructor.email }}</a>{% endif %}{% if instructor.webpage %} <a href="{{ instructor.webpage }}">webpage</a>{% endif %}{% if instructor.office %}<br />Office: {{ instructor.office }}{% endif %}{% if instructor.hours %}<br />Office hours: {{ instructor.hours }}{% endif %}</li>
-{% endfor %}
-</ul>
-</div>
-
-<div id="textbooks">
-  <h2>Textbooks<a name="Textbooks"></a></h2>
-  <p>There are no official texts for the course.  
-     If you're not familiar with the background material,
-     you may wish to look at:</p>
-  <ul>
-    <li><a href="http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2009/">Remzi Arpaci-Dusseau's OS lecture notes</a> are a great, free, online resource for background ugrad OS concepts.</li>
-    <li><b>Operating Systems: Principles and Practice</b>, by Thomas Anderson and Michael Dahlin.</li>
-    <li><b>Computer Networks: A Systems Approach</b>, third edition, by 
-     Larry Peterson and Bruce Davie.
-     It is available in the CMU Bookstore. Covers background networking
-     material that we assume students will be generally familiar with.</li>
-    <li><b>Advanced Programming in the Unix Environment</b> by W. Richard Stevens, Addison-Wesley, 1993.</li>
-    <li><b>Unix Network Programming:
-    Networking APIs: Sockets and XTI (Volume 1)</b> by W. Richard Stevens.</li>
-    <li><b>The Art of Computer Systems Performance Analysis</b>, by Raj Jain.</li>
-    <li><b>Distributed Algorithms</b>, by Nancy Lynch</li>
-  </ul>
-
-You might take a peek at the two CMU undergrad systems courses for
-background information on operating systems (<a
-href="http://www.cs.cmu.edu/~410/">15-410</a>) and networking (<a
-href="http://www.cs.cmu.edu/~srini/15-441/F06">15-441</a>).
-
-  <h2>Suggested Readings<a name="Suggested"></a></h2>
-  <p>You may also find the following readings useful:</p>
-  <ul>
-    <li><b>The Mythical Man-Month: Essays on Software Engineering</b>, by Fred Brooks</li>
-    <li><b><a href="papers/howard88.pdf">
-        Scale and performance in a distributed file system</a></b>, 
-        Howard, Kazar, Menees, Nichols, Satyanarayanan, Sidebotham, and West. 
-        ACM Transactions on Computer Systems (Feb 1988).
-        This paper describes AFS, and is cited by most papers that evaluate 
-        filesystem performance.  Many people simply know this paper as 
-        Howard88.  You may find this interesting because you use AFS, and 
-        you may need to cite this if you build a storage system.</li>
-    <li><b><a href="papers/saltzer84.pdf">
-        End-to-end arguments in system design</a></b>,
-        Saltzer, Reed, and Clark.  
-        ACM Transactions on Computer Systems (Nov 1984).
-        This paper presents the design principle that functionality should 
-        be end-to-end.  For example, data should be verified or encrypted 
-        at the source and destination rather than along the way.  
-        Mechanisms in the middle tend to be redundant.</li>
-  </ul>
-
-</div>
-
-<div id="Grading">
-<h2>Grading</h2>
-<p>Your final grade for the course will be based on the following weights:</p>
-<ul>
-  <li>40% Project</li>
-  <li>20% Midterm exam</li>
-  <li>20% Final exam</li>
-  <li>20% Paper Summaries, homeworks, and participation</li>
-</ul>
-
-<!--<p>The quizzes will be in-class, one near midterm and one near the end of the
-semester.</p>-->
-
-<p>
-The project in 15-712 is an open-ended research project, done in
-groups of three.  The project requires a proposal, a project status
-report, and a final report (both written and presented). 
-</p>
-
-</div>
 
 <div id="Schedule">
   <h2>Schedule<a name="Schedule"></a></h2>
