@@ -1,6 +1,6 @@
 # coursegen2
 
-Generates course pages from `config.toml` and project-local Tera templates: required `syllabus_template.html` and optional `index_template.html`.
+Generates course pages from `config.toml` and project-local Tera templates: required `schedule_template.html` and optional `index_template.html`.
 
 Run the generator from the course directory; it reads `config.toml` and templates there:
 
@@ -16,12 +16,12 @@ Pass `--config PATH` to use a different configuration file.
 Run from a course directory containing:
 
 - `config.toml`
-- `syllabus_template.html` (required)
+- `schedule_template.html` (required)
 - `index_template.html` (optional)
 - `announcements_template.html`, `announcements_list.html`, `announcements_preview.html`, and
   `rss_template.xml` (optional announcement-page set)
 
-Generation writes `syllabus.html` and, when the corresponding optional templates exist,
+Generation writes `schedule.html` and, when the corresponding optional templates exist,
 `index.html`, `announcements.html`, and `rss2.xml` in that same directory. Treat generated
 pages and feeds as output: edit their templates or `config.toml`, then regenerate.
 
@@ -34,7 +34,7 @@ Shared fields:
 - `{{ meeting_times }}` — `meets`, `starts`, and `ends`
 - `{{ location }}` — `location`
 - `{{ instructors }}` — the `[[instructor]]` records, for Tera loops and conditionals
-- `{{ schedule | safe }}` — generated schedule rows, available to the syllabus template
+- `{{ schedule | safe }}` — generated schedule rows, available to the schedule template
 - `{{ generated_at }}` — local generation date
 - `{{ announcements }}` — every configured announcement plus the automatic first-day notice
 - `{{ recent_announcements }}` — the two newest announcements, for the index preview

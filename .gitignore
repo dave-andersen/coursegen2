@@ -8,5 +8,5 @@
 *.safe
 
 # Root-level generated pages; course example outputs remain tracked.
-/syllabus.html
+/schedule.html
 /index.html

@@ -333,7 +333,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let generated_at = chrono::Local::now().format("%Y-%m-%d").to_string();
     let announcements = announcement_views(&config, &semester);
     let recent_announcements: Vec<Announcement> = announcements.iter().take(2).cloned().collect();
-    let syllabus_template = std::fs::read_to_string("syllabus_template.html")?;
+    let schedule_template = std::fs::read_to_string("schedule_template.html")?;
     let index_template = optional_template("index_template.html")?;
     let announcements_template = optional_template("announcements_template.html")?;
     let (announcements_list_template, announcements_preview_template, rss_template) =
@@ -359,7 +359,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     context.insert("course_secretary", &config.course_secretary);
 
     let mut tera = Tera::default();
-    tera.add_raw_template("syllabus_template.html", &syllabus_template)?;
+    tera.add_raw_template("schedule_template.html", &schedule_template)?;
     if let Some(template) = &announcements_list_template {
         tera.add_raw_template("announcements_list.html", template)?;
     }
@@ -376,7 +376,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         tera.add_raw_template("index_template.html", template)?;
     }
 
-    let syllabus = tera.render("syllabus_template.html", &context)?;
+    let schedule_page = tera.render("schedule_template.html", &context)?;
     let index = index_template
         .as_ref()
         .map(|_| tera.render("index_template.html", &context))
@@ -390,9 +390,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|_| tera.render("rss_template.xml", &context))
         .transpose()?;
 
-    let mut syllabus_output = AtomicWriteFile::options().open("syllabus.html")?;
-    syllabus_output.write_all(syllabus.as_bytes())?;
-    syllabus_output.commit()?;
+    let mut schedule_output = AtomicWriteFile::options().open("schedule.html")?;
+    schedule_output.write_all(schedule_page.as_bytes())?;
+    schedule_output.commit()?;
 
     if let Some(index) = index {
         let mut index_output = AtomicWriteFile::options().open("index.html")?;
@@ -465,10 +465,10 @@ mod tests {
         let mut tera = Tera::default();
         let rendered = tera
             .add_raw_template(
-                "syllabus_template.html",
+                "schedule_template.html",
                 "<p>{{ semester }}</p>{{ schedule | safe }}",
             )
-            .and_then(|()| tera.render("syllabus_template.html", &context));
+            .and_then(|()| tera.render("schedule_template.html", &context));
 
         assert!(rendered.is_ok());
         assert_eq!(
@@ -478,7 +478,7 @@ mod tests {
     }
 
     #[test]
-    fn tera_renders_serialized_instructors_for_syllabus_templates() {
+    fn tera_renders_serialized_instructors_for_schedule_templates() {
         let instructors = [super::Instructor {
             name: Some("Ada Lovelace".to_owned()),
             email: Some("ada@example.test".to_owned()),
@@ -491,10 +491,10 @@ mod tests {
         let mut tera = Tera::default();
         let rendered = tera
             .add_raw_template(
-                "syllabus_template.html",
+                "schedule_template.html",
                 "{% for instructor in instructors %}{% if instructor.name %}<strong>{{ instructor.name }}</strong>{% endif %}{% if instructor.email %} <a href=\"mailto:{{ instructor.email }}\">{{ instructor.email }}</a>{% endif %}{% if instructor.webpage %} <a href=\"{{ instructor.webpage }}\">webpage</a>{% endif %}{% if instructor.office %}<br />Office: {{ instructor.office }}{% endif %}{% if instructor.hours %}<br />Office hours: {{ instructor.hours }}{% endif %}{% endfor %}",
             )
-            .and_then(|()| tera.render("syllabus_template.html", &context));
+            .and_then(|()| tera.render("schedule_template.html", &context));
 
         assert_eq!(
             rendered.ok().as_deref(),
@@ -505,7 +505,7 @@ mod tests {
     #[test]
     fn tera_rejects_malformed_template_syntax() {
         assert!(Tera::default()
-            .add_raw_template("syllabus_template.html", "{{")
+            .add_raw_template("schedule_template.html", "{{")
             .is_err());
         assert!(Tera::one_off("{{ missing }}", &Context::new(), true).is_err());
     }
