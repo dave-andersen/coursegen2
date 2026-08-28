@@ -100,8 +100,7 @@ dl.newslist {
  padding: 0;
 }
 
-dl.newslist dt { 
-// display: inline;
+dl.newslist dt {
  padding-left: 0;
  color: #000055;
  font-weight: bold;

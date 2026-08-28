@@ -140,6 +140,72 @@ fn holiday_map(holidays: &[Holiday]) -> Result<HashMap<NaiveDate, String>, Strin
     Ok(holidays_by_date)
 }
 
+fn exam_map(exams: &[Exam]) -> Result<HashMap<NaiveDate, &Exam>, String> {
+    let mut exams_by_date = HashMap::new();
+
+    for exam in exams {
+        if let Some(previous_exam) = exams_by_date.insert(exam.date, exam) {
+            return Err(format!(
+                "duplicate exam date {}: {:?} and {:?}",
+                exam.date, previous_exam.name, exam.name
+            ));
+        }
+    }
+
+    Ok(exams_by_date)
+}
+
+fn validate_schedule(
+    config: &Config,
+    holidays: &HashMap<NaiveDate, String>,
+    meets: &HashSet<Weekday>,
+) -> Result<(), String> {
+    for exam in &config.exam {
+        if exam.date < config.first_day || exam.date > config.last_day {
+            return Err(format!(
+                "exam {:?} on {} falls outside the semester ({}..{})",
+                exam.name, exam.date, config.first_day, config.last_day
+            ));
+        }
+        if let Some(holiday) = holidays.get(&exam.date) {
+            return Err(format!(
+                "exam {:?} is scheduled on {}, which is the holiday {holiday:?}",
+                exam.name, exam.date
+            ));
+        }
+        if !meets.contains(&exam.date.weekday()) {
+            return Err(format!(
+                "exam {:?} on {} ({}) is not a scheduled meeting day",
+                exam.name,
+                exam.date,
+                exam.date.weekday()
+            ));
+        }
+    }
+
+    for holiday in &config.holiday {
+        for date in &holiday.dates {
+            if *date < config.first_day || *date > config.last_day {
+                return Err(format!(
+                    "holiday {:?} date {date} falls outside the semester ({}..{})",
+                    holiday.name, config.first_day, config.last_day
+                ));
+            }
+        }
+    }
+
+    for event in &config.post_class_event {
+        if let Some(holiday) = holidays.get(&event.date) {
+            return Err(format!(
+                "post_class_event {:?} is scheduled on {}, which is the holiday {holiday:?}",
+                event.title, event.date
+            ));
+        }
+    }
+
+    Ok(())
+}
+
 fn announcement_views(config: &Config, semester: &str) -> Vec<Announcement> {
     let mut announcements: Vec<Announcement> = config
         .announcement
@@ -208,7 +274,7 @@ fn schedule_html(
         if let Some(exam) = exams.get(&day) {
             writeln!(
                 &mut schedule,
-                "<tr class=\"lecture\"><td>{} {}/{} </td>",
+                "<tr class=\"exam\"><td>{} {}/{} </td>",
                 dow,
                 day.month(),
                 day.day(),
@@ -313,15 +379,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config: Config = toml::from_str(&contents)?;
 
     let holidays = holiday_map(&config.holiday)?;
-
-    let exams: HashMap<NaiveDate, &Exam> =
-        config.exam.iter().map(|exam| (exam.date, exam)).collect();
+    let exams = exam_map(&config.exam)?;
 
     let meets: HashSet<Weekday> = config
         .meets
         .iter()
         .map(|meeting| weekday_from_str(meeting))
         .collect::<Result<_, _>>()?;
+    validate_schedule(&config, &holidays, &meets)?;
     let schedule = schedule_html(&config, &holidays, &meets, &exams)?;
     let semester = format!("{} {}", config.term, config.year);
     let meeting_times = format!(
@@ -566,7 +631,7 @@ mod tests {
         assert_eq!(
             schedule.ok().as_deref(),
             Some(concat!(
-                "<tr class=\"lecture\"><td>Fri 10/9 </td>\n",
+                "<tr class=\"exam\"><td>Fri 10/9 </td>\n",
                 "<td>Midterm 1</td><td></td>\n<td>\n</td>\n</tr>\n",
                 "<tr class=\"lecture\"><td>Mon 10/12 </td>\n",
                 "<td>After Exam</td><td></td>\n<td>\n</td>\n</tr>\n",
@@ -620,25 +685,19 @@ mod tests {
     }
 
     #[test]
-    fn example_configuration_parses_generic_exams() {
+    fn example_configuration_parses() {
+        // Smoke test only: the shipped example config must deserialize.
+        // Deliberately does not assert on specific course content (exam
+        // names, lecture titles/counts, ...) since that's edited every
+        // semester independently of the parsing logic under test; asserting
+        // on exact fixture text just makes content edits fail the build.
         let config: Result<super::Config, toml::de::Error> =
             toml::from_str(include_str!("../ex/cmu-15712/config.toml"));
 
-        assert_eq!(
-            config.ok().map(|config| {
-                config
-                    .exam
-                    .into_iter()
-                    .map(|exam| (exam.name, exam.date.to_string()))
-                    .collect::<Vec<_>>()
-            }),
-            Some(vec![
-                ("Midterm 1".to_owned(), "2026-10-09".to_owned()),
-                (
-                    "Midterm 2, Date Time And Location TBA".to_owned(),
-                    "2026-12-04".to_owned()
-                ),
-            ])
+        assert!(
+            config.is_ok(),
+            "ex/cmu-15712/config.toml failed to parse: {:?}",
+            config.err()
         );
     }
 
@@ -688,6 +747,142 @@ mod tests {
             super::holiday_map(&holidays),
             Err(
                 "duplicate holiday date 2026-10-12: \"Fall Break\" and \"University Holiday\""
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn duplicate_exam_dates_fail_with_both_names() {
+        let date = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let exams = [
+            super::Exam {
+                name: "Midterm 1".to_owned(),
+                date,
+            },
+            super::Exam {
+                name: "Makeup Midterm 1".to_owned(),
+                date,
+            },
+        ];
+
+        assert_eq!(
+            super::exam_map(&exams).err(),
+            Some("duplicate exam date 2026-10-09: \"Midterm 1\" and \"Makeup Midterm 1\"".to_owned())
+        );
+    }
+
+    #[test]
+    fn well_formed_schedule_passes_validation() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap(); // Friday
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap(); // Monday
+        let mut config = test_config(first_day, last_day, Vec::new());
+        config.exam = vec![super::Exam {
+            name: "Midterm 1".to_owned(),
+            date: first_day,
+        }];
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert!(super::validate_schedule(&config, &HashMap::new(), &meets).is_ok());
+    }
+
+    #[test]
+    fn exam_outside_semester_fails() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let mut config = test_config(first_day, last_day, Vec::new());
+        config.exam = vec![super::Exam {
+            name: "Midterm 1".to_owned(),
+            date: NaiveDate::from_ymd_opt(2026, 12, 4).unwrap(),
+        }];
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert_eq!(
+            super::validate_schedule(&config, &HashMap::new(), &meets).err(),
+            Some(
+                "exam \"Midterm 1\" on 2026-12-04 falls outside the semester (2026-10-09..2026-10-12)"
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn exam_on_non_meeting_day_fails() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap(); // Friday
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 13).unwrap(); // Tuesday
+        let mut config = test_config(first_day, last_day, Vec::new());
+        config.exam = vec![super::Exam {
+            name: "Pop Quiz".to_owned(),
+            date: last_day,
+        }];
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert_eq!(
+            super::validate_schedule(&config, &HashMap::new(), &meets).err(),
+            Some("exam \"Pop Quiz\" on 2026-10-13 (Tue) is not a scheduled meeting day".to_owned())
+        );
+    }
+
+    #[test]
+    fn exam_on_holiday_fails() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let mut config = test_config(first_day, last_day, Vec::new());
+        let exam_date = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        config.exam = vec![super::Exam {
+            name: "Midterm 1".to_owned(),
+            date: exam_date,
+        }];
+        let holidays = HashMap::from([(exam_date, "Fall Break".to_owned())]);
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert_eq!(
+            super::validate_schedule(&config, &holidays, &meets).err(),
+            Some(
+                "exam \"Midterm 1\" is scheduled on 2026-10-12, which is the holiday \"Fall Break\""
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn post_class_event_on_holiday_fails() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let mut config = test_config(first_day, last_day, Vec::new());
+        let event_date = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        config.post_class_event = vec![super::PostClassEvent {
+            date: event_date,
+            title: "Final Report Due".to_owned(),
+            notes: None,
+        }];
+        let holidays = HashMap::from([(event_date, "Fall Break".to_owned())]);
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert_eq!(
+            super::validate_schedule(&config, &holidays, &meets).err(),
+            Some(
+                "post_class_event \"Final Report Due\" is scheduled on 2026-10-12, which is the holiday \"Fall Break\""
+                    .to_owned()
+            )
+        );
+    }
+
+    #[test]
+    fn holiday_outside_semester_fails() {
+        let first_day = NaiveDate::from_ymd_opt(2026, 10, 9).unwrap();
+        let last_day = NaiveDate::from_ymd_opt(2026, 10, 12).unwrap();
+        let mut config = test_config(first_day, last_day, Vec::new());
+        config.holiday = vec![super::Holiday {
+            dates: vec![NaiveDate::from_ymd_opt(2027, 1, 1).unwrap()],
+            name: "New Year's Day".to_owned(),
+        }];
+        let meets = HashSet::from([Weekday::Fri, Weekday::Mon]);
+
+        assert_eq!(
+            super::validate_schedule(&config, &HashMap::new(), &meets).err(),
+            Some(
+                "holiday \"New Year's Day\" date 2027-01-01 falls outside the semester (2026-10-09..2026-10-12)"
                     .to_owned()
             )
         );
